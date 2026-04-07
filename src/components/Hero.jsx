@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { HERO } from "../constants/content";
 import WireframeDottedGlobe from "./ui/wireframe-dotted-globe";
 import { Waves } from "./ui/wave-background";
+import { RollingNumber } from "./ui/rolling-number";
 
 /**
  * ─── GLOBE MARKERS ───────────────────────────────────────────────────────────
@@ -157,7 +158,7 @@ export default function Hero() {
             Countries We've Served
           </p>
           <p className="font-sans text-xs text-gold-muted uppercase tracking-law">
-            28 Nations &amp; Growing
+            <RollingNumber value={28} /> Nations &amp; Growing
           </p>
         </div>
       </div>

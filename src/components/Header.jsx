@@ -15,16 +15,7 @@ import { BRAND, NAV } from "../constants/content";
 function LogoPlaceholder() {
   return (
     <div className="flex items-center gap-2.5">
-      {/*
-        Logo image — uncomment and update src when you have the asset:
-        <img src="/images/logo.svg" alt="Anwari Law" className="h-8 w-auto" />
-      */}
-      <div
-        className="flex items-center justify-center w-9 h-9 rounded border border-gold/60 bg-gold/10"
-        aria-hidden="true"
-      >
-        <span className="font-serif text-gold text-sm font-semibold leading-none">A</span>
-      </div>
+      <img src="/logo.png" alt="Anwari Law" className="h-16 w-auto" />
       <span className="font-serif text-white text-[1.05rem] font-medium tracking-wide leading-none">
         {BRAND.name}
       </span>

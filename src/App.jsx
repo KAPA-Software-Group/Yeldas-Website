@@ -13,6 +13,8 @@ import Hero from "./components/Hero";
 const PracticeAreas        = lazy(() => import("./components/PracticeAreas"));
 const ServicesDetail       = lazy(() => import("./components/ServicesDetail"));
 const PersonalizedServices = lazy(() => import("./components/PersonalizedServices"));
+const MeetTheTeam          = lazy(() => import("./components/MeetTheTeam"));
+const ClientsStat          = lazy(() => import("./components/ClientsStat"));
 const ConsultationCTA      = lazy(() => import("./components/ConsultationCTA"));
 const Footer               = lazy(() => import("./components/Footer"));
 
@@ -34,6 +36,8 @@ export default function App() {
 
         {/* Lazy sections — Suspense boundary is invisible (null fallback) */}
         <Suspense fallback={null}>
+          <ClientsStat />
+          <MeetTheTeam />
           <PracticeAreas />
           <ServicesDetail />
           <PersonalizedServices />

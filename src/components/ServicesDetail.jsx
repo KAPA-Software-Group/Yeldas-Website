@@ -10,6 +10,7 @@ import {
 import { CategoryList } from "@/components/ui/category-list";
 import { SERVICES } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { RollingNumber } from "./ui/rolling-number";
 
 /**
  * ServicesDetail
@@ -93,14 +94,14 @@ export default function ServicesDetail() {
             {/* Stats */}
             <div className="mt-12 inline-flex items-center gap-6">
               <div>
-                <p className="font-serif text-3xl text-ink leading-none">5</p>
+                <RollingNumber value={5} className="font-serif text-3xl text-ink leading-none" />
                 <p className="font-sans text-xs text-ink-light uppercase tracking-law mt-1">
                   Practice Areas
                 </p>
               </div>
               <div className="w-px h-10 bg-cream-darker" aria-hidden="true" />
               <div>
-                <p className="font-serif text-3xl text-ink leading-none">30+</p>
+                <RollingNumber value={30} suffix="+" className="font-serif text-3xl text-ink leading-none" />
                 <p className="font-sans text-xs text-ink-light uppercase tracking-law mt-1">
                   Services Offered
                 </p>
