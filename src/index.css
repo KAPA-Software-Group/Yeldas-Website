@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Resets ──────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-ink bg-cream;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+    line-height: 1.1;
+  }
+
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ─── Reusable Utilities ───────────────────────────────────────────────────── */
+@layer utilities {
+  /* Thin gold decorative line */
+  .gold-rule {
+    @apply w-12 h-px bg-gold;
+  }
+
+  /* Section eyebrow label */
+  .eyebrow {
+    @apply text-xs font-sans font-bold tracking-law uppercase text-gold;
+  }
+
+  /* Smooth entrance for sections */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ─── Focus Styles (Accessibility) ────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #B8933F;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Scroll Reveal System ─────────────────────────────────────────────────── */
+/*
+ * Elements that start hidden and slide up into view.
+ * Add class "sr" to any element you want to animate in.
+ * Call useScrollReveal() on its container to trigger it.
+ */
+.sr {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sr.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays — put "sr-stagger" on the parent of multiple .sr children */
+.sr-stagger > .sr:nth-child(1) { transition-delay: 0ms; }
+.sr-stagger > .sr:nth-child(2) { transition-delay: 110ms; }
+.sr-stagger > .sr:nth-child(3) { transition-delay: 220ms; }
+.sr-stagger > .sr:nth-child(4) { transition-delay: 330ms; }
+.sr-stagger > .sr:nth-child(5) { transition-delay: 440ms; }
+.sr-stagger > .sr:nth-child(6) { transition-delay: 550ms; }
+
+/* ─── Hero Text Entrance ───────────────────────────────────────────────────── */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-line {
+  animation: heroIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-line:nth-child(1) { animation-delay: 200ms; }
+.hero-line:nth-child(2) { animation-delay: 340ms; }
+.hero-line:nth-child(3) { animation-delay: 460ms; }
+.hero-line:nth-child(4) { animation-delay: 560ms; }
+.hero-line:nth-child(5) { animation-delay: 650ms; }
+.hero-line:nth-child(6) { animation-delay: 720ms; }
