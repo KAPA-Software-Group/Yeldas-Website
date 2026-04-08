@@ -20,7 +20,7 @@ const SpotlightBackground = ({ children, className = "" }) => {
           inset: "-60% -40%",
           background:
             "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(184,147,63,0.13) 0%, transparent 65%)",
-          filter: "blur(64px)",
+          filter: "blur(36px)",
         }}
         animate={{
           opacity: [0.15, 0.45, 0.15],
@@ -43,7 +43,7 @@ const SpotlightBackground = ({ children, className = "" }) => {
           inset: "-30% -20%",
           background:
             "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(184,147,63,0.28) 0%, rgba(184,147,63,0.08) 50%, transparent 70%)",
-          filter: "blur(40px)",
+          filter: "blur(22px)",
         }}
         animate={{
           opacity: [0.2, 0.45, 0.25, 0.45, 0.2],
@@ -67,7 +67,7 @@ const SpotlightBackground = ({ children, className = "" }) => {
           inset: "-10% -8%",
           background:
             "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(220,178,80,0.55) 0%, rgba(184,147,63,0.18) 40%, transparent 68%)",
-          filter: "blur(20px)",
+          filter: "blur(10px)",
         }}
         animate={{
           opacity: [0.2, 0.5, 0.25, 0.45, 0.2],

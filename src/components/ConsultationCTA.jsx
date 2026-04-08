@@ -1,6 +1,8 @@
 import { ArrowRight, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 import { CONSULTATION } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { BeamsBackground } from "./ui/beams-background";
 
 /**
  * ConsultationCTA
@@ -23,26 +25,8 @@ export default function ConsultationCTA() {
       aria-labelledby="consultation-heading"
       className="relative bg-navy overflow-hidden py-24 lg:py-36"
     >
-      {/* ── Layer 1: Radial gold glow — bottom-left ─────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 60% at 10% 90%, rgba(184,147,63,0.11) 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* ── Layer 2: Subtle dot-grid texture ────────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.18]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(184,147,63,0.5) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-        aria-hidden="true"
-      />
+      {/* ── Animated beam background ─────────────────────────────────────── */}
+      <BeamsBackground intensity="medium" />
 
       {/* ── Layer 3: Gradient rules top & bottom ────────────────────────── */}
       <div
@@ -94,8 +78,8 @@ export default function ConsultationCTA() {
             style={{ transitionDelay: "240ms" }}
           >
             {/* Primary CTA */}
-            <a
-              href={CONSULTATION.cta.href}
+            <Link
+              to={CONSULTATION.cta.href}
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-gold hover:bg-gold-light text-white font-sans font-bold text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
             >
               {CONSULTATION.cta.label}
@@ -105,7 +89,7 @@ export default function ConsultationCTA() {
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
-            </a>
+            </Link>
 
             {/* Phone */}
             <div className="flex flex-col gap-0.5">

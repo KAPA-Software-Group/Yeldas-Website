@@ -101,7 +101,7 @@ export default function PersonalizedServices() {
 
             {/* Decorative offset border */}
             <div
-              className="absolute -bottom-3 -right-3 w-full h-full border border-gold/20 rounded-sm pointer-events-none"
+              className="absolute -bottom-3 -right-3 w-full h-full border border-gold/20 rounded-sm pointer-events-none hidden sm:block"
               aria-hidden="true"
             />
           </div>

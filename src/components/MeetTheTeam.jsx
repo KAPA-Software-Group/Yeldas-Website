@@ -1,4 +1,5 @@
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { SmokeBackground } from "./ui/spooky-smoke-animation";
 
 /**
  * MeetTheTeam
@@ -18,8 +19,15 @@ export default function MeetTheTeam() {
     <section
       id="team"
       aria-labelledby="team-heading"
-      className="relative bg-cream py-24 lg:py-32 overflow-hidden"
+      className="relative bg-cream py-24 pb-32 lg:py-32 overflow-hidden"
     >
+      {/* ── Smoke background — blends into cream via multiply ───────────── */}
+      <SmokeBackground
+        smokeColor="#B8933F"
+        className="opacity-[0.18]"
+        style={{ mixBlendMode: "multiply" }}
+      />
+
       {/* ── Subtle watermark glyph ───────────────────────────────────────── */}
       <div
         className="absolute -top-16 -left-8 font-serif text-[22rem] leading-none text-ink/[0.028] select-none pointer-events-none"
@@ -102,7 +110,7 @@ export default function MeetTheTeam() {
 
             {/* Offset gold border — matches PersonalizedServices treatment */}
             <div
-              className="absolute -bottom-3 -right-3 w-full h-full border border-gold/25 rounded-sm pointer-events-none"
+              className="absolute -bottom-3 -right-3 w-full h-full border border-gold/25 rounded-sm pointer-events-none hidden sm:block"
               aria-hidden="true"
             />
 

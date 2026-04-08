@@ -9,7 +9,7 @@
 // ─── Brand & Contact ─────────────────────────────────────────────────────────
 export const BRAND = {
   name: "Anwari Law",
-  tagline: "Immigration & Legal Services",
+  tagline: "Canadian Immigration Law Firm",
   phone: "(647) 704-9419",
   email: "yelda@anwarilaw.ca",
   address: {
@@ -25,23 +25,24 @@ export const BRAND = {
 // ─── Navigation ──────────────────────────────────────────────────────────────
 export const NAV = {
   links: [
-    { label: "Services", href: "#services" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home",       href: "/" },
+    { label: "Services",   href: "/services" },
+    { label: "About",      href: "/about" },
+    { label: "Contact Us", href: "/contact" },
   ],
-  cta: { label: "Request Consultation", href: "#contact" },
+  cta: { label: "Request Consultation", href: "/contact" },
 };
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 export const HERO = {
-  eyebrow: "Immigration & Legal Services",
+  eyebrow: "Canadian Immigration Law Firm · Toronto, Ontario",
   // Headline split into two lines for typographic control
-  headlineTop: "Guiding You Forward,",
-  headlineBottom: "Every Step of the Way.",
+  headlineTop: "Canadian Immigration",
+  headlineBottom: "Lawyers You Can Trust.",
   subtext:
-    "We believe in doing as much as possible to satisfy our clients, whether through a small notarization or seeking refugee status.",
-  primaryCTA: { label: "Request Consultation", href: "#contact" },
-  secondaryCTA: { label: "Explore Our Services", href: "#services" },
+    "Anwari Law is a Toronto-based immigration law firm representing clients across Canada and internationally — from refugee claims and Express Entry to work permits, citizenship, and appeals.",
+  primaryCTA: { label: "Request Consultation", href: "/contact" },
+  secondaryCTA: { label: "Explore Our Services", href: "/services" },
   // Image: Replace with your actual professional photo path, e.g. "/images/hero.jpg"
   imageSrc: null,
   imageAlt: "Anwari Law — Professional legal counsel in Toronto",
@@ -103,7 +104,7 @@ export const CONSULTATION = {
   heading: "Ready to Take the First Step?",
   subtext:
     "Speak directly with our legal team. We offer confidential consultations to understand your situation and map a clear path forward.",
-  cta: { label: "Request a Consultation", href: "#contact" },
+  cta: { label: "Request a Consultation", href: "/contact" },
   phone: "(647) 704-9419",
   phoneLabel: "Or call us directly",
 };
@@ -119,20 +120,20 @@ export const SERVICES = {
       id: "inadmissibility",
       title: "Inadmissibility",
       items: [
-        "Medical Inadmissibility",
-        "Criminal Inadmissibility",
-        "Deportation & Removal",
+        "Medical",
+        "Criminal",
+        "Deportation and removal",
       ],
     },
     {
       id: "permanent-resident",
       title: "Permanent Resident Application",
       items: [
-        "Express Entry",
-        "Family Class Sponsorship",
-        "Business Class Immigration",
-        "Caregiver Program",
-        "Humanitarian & Compassionate Applications",
+        "Express entry",
+        "Family class sponsorship",
+        "Business class immigration",
+        "Caregiver program",
+        "Humanitarian and Compassionate Applications",
         "Provincial Nomination Programs",
       ],
     },
@@ -142,13 +143,13 @@ export const SERVICES = {
       items: [
         "Temporary Resident Permits",
         "Work Permits",
-        "LMIA Exemption Work Permits",
-        "LMIA-Based Work Permits",
-        "Spousal Sponsorship Open Work Permit",
+        "LMIA exemption work permits",
+        "LMIA-based work permits",
+        "Spousal Sponsorships Open Work Permit",
         "Post-Graduate Work Permit",
-        "Study Permits",
-        "Visitor Visa",
-        "Super Visa",
+        "Study permits",
+        "Visitor visa",
+        "Super visa",
       ],
     },
     {
@@ -158,19 +159,19 @@ export const SERVICES = {
         "Start-Up Visas",
         "Self-Employed Programs",
         "Entrepreneur Program",
-        "Intra-Company Transferee",
+        "Intra-company transferee",
       ],
     },
     {
       id: "citizenship",
       title: "Citizenship",
       items: [
-        "Citizenship Applications",
-        "Citizenship Refusals",
-        "Passport Applications",
-        "Passport Refusals",
-        "Citizenship Revocation",
-        "Citizenship Resumption",
+        "Citizenship applications",
+        "Citizenship refusals",
+        "Passport applications",
+        "Passport refusals",
+        "Citizenship revocation",
+        "Citizenship resumption",
       ],
     },
   ],
@@ -178,15 +179,117 @@ export const SERVICES = {
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 export const FOOTER = {
-  tagline: "Expert immigration and legal services you can trust.",
+  tagline: "Canadian immigration law firm based in Toronto, Ontario.",
   quickLinks: [
-    { label: "Services", href: "#services" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home",       href: "/" },
+    { label: "Services",   href: "/services" },
+    { label: "About",      href: "/about" },
+    { label: "Contact Us", href: "/contact" },
   ],
   legalLinks: [
     { label: "Privacy Policy", href: "#" },
     { label: "Terms of Service", href: "#" },
   ],
   copyright: "© 2023 Anwari Law. All rights reserved.",
+};
+
+// ─── About Page ───────────────────────────────────────────────────────────────
+export const ABOUT = {
+  hero: {
+    eyebrow: "Who We Are",
+    heading: "A Law Firm Built on Trust & Results",
+    subtext:
+      "Anwari Law is a Toronto-based immigration law firm dedicated to helping individuals, families, and businesses navigate the complexities of Canadian immigration law.",
+  },
+  story: {
+    eyebrow: "Our Story",
+    heading: "Rooted in Community, Driven by Purpose",
+    body: [
+      "Founded with a commitment to accessible, high-quality immigration legal services, Anwari Law has built a reputation for excellence across the full spectrum of Canadian immigration law.",
+      "We understand that immigration is not just a legal process — it is a life-changing journey. Our team brings both legal expertise and genuine empathy to every case, ensuring our clients feel heard, supported, and confident throughout their immigration journey.",
+    ],
+  },
+  values: [
+    {
+      number: "01",
+      title: "Client-Centered",
+      description:
+        "Every case is unique. We take the time to understand your situation and craft a strategy built around your specific goals and circumstances.",
+    },
+    {
+      number: "02",
+      title: "Transparent",
+      description:
+        "No surprises. We communicate clearly at every stage — explaining your options, setting realistic expectations, and keeping you informed.",
+    },
+    {
+      number: "03",
+      title: "Excellence",
+      description:
+        "We hold ourselves to the highest standard of legal practice, staying current with policy changes and applying rigorous attention to every application.",
+    },
+  ],
+  team: [
+    {
+      id: "yelda",
+      name: "Yelda Anwari",
+      role: "Principal Lawyer & Founder",
+      photo: "/team-yelda.png",
+      bio: "Founder and principal lawyer at Anwari Law. Yelda brings deep expertise across Canadian immigration law, guiding clients through complex challenges with meticulous preparation and genuine dedication.",
+    },
+    {
+      id: "prabh",
+      name: "Prabh Simran Kaur",
+      role: "Associate Lawyer",
+      photo: "/team-prabh.webp",
+      bio: "Dual-licensed in India and Ontario, Prabh holds an LL.M. in International Trade Law. At Anwari Law her practice focuses on refugee claims, PRRAs, judicial reviews, and appeals — combining legal insight with a client-centered approach.",
+    },
+    {
+      id: "vai",
+      name: "Vaishalei Manoharan",
+      role: "Associate Lawyer",
+      photo: "/team-vai.webp",
+      bio: "A University of Sussex graduate with over two years in civil litigation, Vaishalei is passionate about Refugee and Immigration law and committed to becoming a skilled advocate upon her call to the Bar.",
+    },
+  ],
+  approach: {
+    eyebrow: "Our Approach",
+    heading: "Strategy Tailored to You",
+    body:
+      "We don't believe in one-size-fits-all solutions. From your initial consultation, we assess your unique circumstances and build a clear, effective strategy. Our team stays with you from first filing to final resolution.",
+    points: [
+      "Detailed intake assessment to understand your full situation",
+      "Custom strategy aligned with your immigration goals",
+      "Dedicated legal team with direct access at every stage",
+      "Thorough document preparation and submission management",
+      "Proactive updates and transparent communication",
+      "Appeals and representation when challenges arise",
+    ],
+  },
+};
+
+// ─── Contact Page ─────────────────────────────────────────────────────────────
+export const CONTACT_PAGE = {
+  hero: {
+    eyebrow: "Get in Touch",
+    heading: "Let's Talk About Your Case",
+    subtext:
+      "Reach out to our team for a confidential consultation. We'll review your situation and outline a clear path forward.",
+  },
+  form: {
+    heading: "Send Us a Message",
+    subtext:
+      "Fill out the form below and a member of our team will get back to you within one business day.",
+  },
+  details: {
+    heading: "Contact Information",
+    officeHours: {
+      label: "Office Hours",
+      value: "Monday – Friday, 9:00 AM – 5:00 PM EST",
+    },
+    responseTime: {
+      label: "Response Time",
+      value: "Within one business day",
+    },
+  },
 };

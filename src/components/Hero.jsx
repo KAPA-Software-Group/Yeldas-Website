@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { HERO } from "../constants/content";
 import WireframeDottedGlobe from "./ui/wireframe-dotted-globe";
 import { Waves } from "./ui/wave-background";
 import { RollingNumber } from "./ui/rolling-number";
+import TorontoSkyline from "./ui/toronto-skyline";
 
 /**
  * ─── GLOBE MARKERS ───────────────────────────────────────────────────────────
@@ -54,10 +56,13 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Introduction"
-      className="relative min-h-screen flex flex-col lg:flex-row overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col lg:flex-row overflow-hidden"
     >
       {/* ── Wave background — base layer behind both panels ──────────────── */}
       <Waves strokeColor="rgba(184, 147, 63, 0.14)" />
+
+      {/* ── Toronto skyline underlay — anchored to bottom of hero ────────── */}
+      <TorontoSkyline />
 
       {/* ── Left Panel — Text Content ─────────────────────────────────────── */}
       {/*
@@ -79,10 +84,9 @@ export default function Hero() {
           </p>
 
           {/* Headline */}
-          <h1 className="hero-line font-serif text-5xl md:text-6xl xl:text-[5rem] text-white leading-display mb-6">
-            {HERO.headlineTop}
-            <br />
-            <em className="not-italic text-gold-muted">{HERO.headlineBottom}</em>
+          <h1 className="hero-line font-serif text-3xl sm:text-4xl md:text-5xl xl:text-[4.25rem] text-white leading-display mb-6">
+            <span className="block">{HERO.headlineTop}</span>
+            <em className="not-italic text-gold-muted block">{HERO.headlineBottom}</em>
           </h1>
 
           {/* Thin gold divider */}
@@ -95,8 +99,8 @@ export default function Hero() {
 
           {/* CTAs */}
           <div className="hero-line flex flex-wrap items-center gap-4">
-            <a
-              href={HERO.primaryCTA.href}
+            <Link
+              to={HERO.primaryCTA.href}
               className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gold hover:bg-gold-light text-white font-sans font-bold text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
             >
               {HERO.primaryCTA.label}
@@ -106,14 +110,14 @@ export default function Hero() {
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
-            </a>
+            </Link>
 
-            <a
-              href={HERO.secondaryCTA.href}
+            <Link
+              to={HERO.secondaryCTA.href}
               className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/25 hover:border-gold/60 text-white/80 hover:text-white font-sans text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer"
             >
               {HERO.secondaryCTA.label}
-            </a>
+            </Link>
           </div>
         </div>
 

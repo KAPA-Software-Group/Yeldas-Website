@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom";
 import { BRAND, FOOTER } from "../constants/content";
 
 /**
@@ -22,19 +23,30 @@ export default function Footer() {
           {/* ── Col 1: Brand ─────────────────────────────────────────────── */}
           <div>
             {/* Logo */}
-            <div className="flex items-center gap-2.5 mb-5">
-              {/*
-                Logo image — uncomment and update src when you have the asset:
-                <img src="/images/logo-white.svg" alt="Anwari Law" className="h-7 w-auto" />
-              */}
-              <div className="flex items-center justify-center w-8 h-8 rounded border border-gold/40 bg-gold/10">
-                <span className="font-serif text-gold text-sm font-semibold leading-none" aria-hidden="true">
-                  A
+            <div className="flex items-center gap-3 mb-5">
+              <img src="/logo.png" alt="Anwari Law" className="h-10 sm:h-12 w-auto" />
+              <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
+                <span style={{
+                  fontFamily: "'Josefin Sans', sans-serif",
+                  fontWeight: 200,
+                  fontSize: "0.95rem",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#fff",
+                }}>
+                  Anwari
+                </span>
+                <span style={{
+                  fontFamily: "'Josefin Sans', sans-serif",
+                  fontWeight: 200,
+                  fontSize: "0.95rem",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#fff",
+                }}>
+                  Law
                 </span>
               </div>
-              <span className="font-serif text-white text-base font-medium tracking-wide leading-none">
-                {BRAND.name}
-              </span>
             </div>
 
             <p className="font-sans text-sm text-white/50 leading-relaxed max-w-xs mb-6">
@@ -64,12 +76,12 @@ export default function Footer() {
               <ul className="space-y-3" role="list">
                 {FOOTER.quickLinks.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
+                    <Link
+                      to={link.href}
                       className="font-sans text-sm text-white/60 hover:text-white transition-colors duration-200 cursor-pointer"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

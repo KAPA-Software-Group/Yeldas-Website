@@ -1,24 +1,34 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { BRAND, NAV } from "../constants/content";
 
-/**
- * Header
- *
- * - Transparent on top, becomes solid navy on scroll
- * - Logo placeholder (left), nav links (center/right), CTA button (far right)
- * - Mobile: collapses to hamburger menu
- *
- * To add your logo: replace the <LogoPlaceholder /> with an <img> tag
- */
-
 function LogoPlaceholder() {
   return (
-    <div className="flex items-center gap-2.5">
-      <img src="/logo.png" alt="Anwari Law" className="h-16 w-auto" />
-      <span className="font-serif text-white text-[1.05rem] font-medium tracking-wide leading-none">
-        {BRAND.name}
-      </span>
+    <div className="flex items-center gap-3">
+      <img src="/logo.png" alt="Anwari Law" className="h-12 sm:h-16 lg:h-20 w-auto" />
+      <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
+        <span style={{
+          fontFamily: "'Josefin Sans', sans-serif",
+          fontWeight: 200,
+          fontSize: "1.05rem",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#fff",
+        }}>
+          Anwari
+        </span>
+        <span style={{
+          fontFamily: "'Josefin Sans', sans-serif",
+          fontWeight: 200,
+          fontSize: "1.05rem",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#fff",
+        }}>
+          Law
+        </span>
+      </div>
     </div>
   );
 }
@@ -26,6 +36,7 @@ function LogoPlaceholder() {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,7 +44,11 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu when user clicks a nav link
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   const handleNavClick = () => setMenuOpen(false);
 
   return (
@@ -47,9 +62,9 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
         {/* Logo */}
-        <a href="#" aria-label="Anwari Law — Return to top" className="flex-shrink-0">
+        <Link to="/" aria-label="Anwari Law - Return to homepage" className="flex-shrink-0">
           <LogoPlaceholder />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav
@@ -58,13 +73,18 @@ export default function Header() {
           className="hidden md:flex items-center gap-8"
         >
           {NAV.links.map((link) => (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
-              className="font-sans text-sm font-normal text-white/80 hover:text-white transition-colors duration-200 tracking-wide"
+              to={link.href}
+              className={[
+                "font-sans text-sm font-normal transition-colors duration-200 tracking-wide",
+                location.pathname === link.href
+                  ? "text-gold"
+                  : "text-white/80 hover:text-white",
+              ].join(" ")}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -78,12 +98,12 @@ export default function Header() {
             <span>{BRAND.phone}</span>
           </a>
 
-          <a
-            href={NAV.cta.href}
+          <Link
+            to={NAV.cta.href}
             className="inline-flex items-center px-5 py-2.5 bg-gold hover:bg-gold-light text-white text-sm font-sans font-bold tracking-wide transition-all duration-200 cursor-pointer rounded-sm"
           >
             {NAV.cta.label}
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -105,14 +125,19 @@ export default function Header() {
       {menuOpen && (
         <div className="md:hidden bg-navy border-t border-white/10 px-6 pb-6 pt-4 space-y-1">
           {NAV.links.map((link) => (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
+              to={link.href}
               onClick={handleNavClick}
-              className="block py-3 font-sans text-base text-white/80 hover:text-white border-b border-white/5 transition-colors duration-200 cursor-pointer"
+              className={[
+                "block py-3 font-sans text-base border-b border-white/5 transition-colors duration-200 cursor-pointer",
+                location.pathname === link.href
+                  ? "text-gold"
+                  : "text-white/80 hover:text-white",
+              ].join(" ")}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
 
           <div className="pt-4 space-y-3">
@@ -124,13 +149,13 @@ export default function Header() {
               <Phone size={14} strokeWidth={1.5} aria-hidden="true" />
               {BRAND.phone}
             </a>
-            <a
-              href={NAV.cta.href}
+            <Link
+              to={NAV.cta.href}
               onClick={handleNavClick}
               className="block w-full text-center px-5 py-3 bg-gold hover:bg-gold-light text-white text-sm font-sans font-bold tracking-wide transition-colors duration-200 cursor-pointer rounded-sm"
             >
               {NAV.cta.label}
-            </a>
+            </Link>
           </div>
         </div>
       )}

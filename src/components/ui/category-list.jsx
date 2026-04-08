@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +63,8 @@ export const CategoryList = ({
             >
               <div
                 className={cn(
-                  "relative overflow-hidden border bg-cream transition-all duration-300 ease-in-out cursor-pointer rounded-sm",
+                  "relative overflow-hidden border bg-cream cursor-pointer rounded-sm",
+                  "transition-[height,border-color,background-color,box-shadow] duration-300 ease-in-out",
                   isHovered
                     ? "h-32 border-gold shadow-md shadow-gold/10 bg-gold-subtle"
                     : "h-20 border-cream-darker hover:border-gold/40"

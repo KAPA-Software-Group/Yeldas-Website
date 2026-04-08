@@ -105,8 +105,8 @@ export function Waves({
     pathsRef.current.forEach(p => p.remove())
     pathsRef.current = []
 
-    const xGap = 8
-    const yGap = 8
+    const xGap = 14
+    const yGap = 12
 
     const oWidth  = width  + 200
     const oHeight = height + 30
@@ -141,7 +141,11 @@ export function Waves({
     }
   }
 
-  const onResize = () => { setSize(); setLines() }
+  let _resizeTimer = null
+  const onResize = () => {
+    clearTimeout(_resizeTimer)
+    _resizeTimer = setTimeout(() => { setSize(); setLines() }, 150)
+  }
 
   const onMouseMove = (e) => updateMousePosition(e.pageX, e.pageY)
 
