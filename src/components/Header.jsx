@@ -6,7 +6,7 @@ import { BRAND, NAV } from "../constants/content";
 function LogoPlaceholder() {
   return (
     <div className="flex items-center gap-3">
-      <img src="/logo.png" alt="Anwari Law" className="h-12 sm:h-16 lg:h-20 w-auto" />
+      <img src="/logo.png" alt="Anwari Law" className="h-16 sm:h-20 lg:h-24 w-auto" />
       <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
         <span style={{
           fontFamily: "'Josefin Sans', sans-serif",
