@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { SUPPORTED_LOCALES } from "../constants/content";
 import { buildLocalizedPath, pageKeyFromPath, useI18n } from "../i18n";
 
+const vercelEnv = __VERCEL_ENV__;
+const robotsContent =
+  vercelEnv === "preview" ? "noindex,nofollow,noarchive" : "index,follow";
+
 function setMeta(selector, createAttrs, content) {
   let element = document.head.querySelector(selector);
   if (!element) {
@@ -34,6 +38,7 @@ export default function SEO() {
 
     document.title = pageMeta.title;
 
+    setMeta('meta[name="robots"]', { name: "robots" }, robotsContent);
     setMeta('meta[name="description"]', { name: "description" }, pageMeta.description);
     setMeta('meta[property="og:type"]', { property: "og:type" }, "website");
     setMeta('meta[property="og:site_name"]', { property: "og:site_name" }, content.META.siteName);
