@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, ArrowRight, CheckCircle, Clock } from "lucide-react";
-import { BRAND, CONTACT_PAGE } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useContent } from "../i18n";
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const { CONTACT_PAGE } = useContent();
+
   return (
     <section
       className="relative overflow-hidden bg-navy px-6 lg:px-12"
       style={{ minHeight: "clamp(28rem, 45vw, 44rem)" }}
-      aria-label="Contact hero"
+      aria-label={CONTACT_PAGE.hero.ariaLabel}
     >
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-gold/0 via-gold/40 to-gold/0"
@@ -50,20 +51,25 @@ function HeroSection() {
   );
 }
 
-// ─── Contact Form ─────────────────────────────────────────────────────────────
 function ContactForm() {
+  const { BRAND, CONTACT_PAGE } = useContent();
+  const form = CONTACT_PAGE.form;
   const [fields, setFields] = useState({
-    name: "", email: "", phone: "", subject: "", message: "",
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     const e = {};
-    if (!fields.name.trim())    e.name    = "Please enter your name.";
-    if (!fields.email.trim())   e.email   = "Please enter your email.";
-    else if (!/\S+@\S+\.\S+/.test(fields.email)) e.email = "Please enter a valid email.";
-    if (!fields.message.trim()) e.message = "Please enter your message.";
+    if (!fields.name.trim()) e.name = form.errors.name;
+    if (!fields.email.trim()) e.email = form.errors.email;
+    else if (!/\S+@\S+\.\S+/.test(fields.email)) e.email = form.errors.emailInvalid;
+    if (!fields.message.trim()) e.message = form.errors.message;
     return e;
   };
 
@@ -76,12 +82,16 @@ function ContactForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-    // Build mailto link as a graceful fallback (no backend required)
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
+
+    const subject = fields.subject || form.mailtoLabels.fallbackSubject;
     const body = encodeURIComponent(
-      `Name: ${fields.name}\nPhone: ${fields.phone}\nSubject: ${fields.subject}\n\n${fields.message}`
+      `${form.mailtoLabels.name}: ${fields.name}\n${form.mailtoLabels.phone}: ${fields.phone}\n${form.mailtoLabels.subject}: ${fields.subject}\n\n${fields.message}`
     );
-    window.location.href = `mailto:${BRAND.email}?subject=${encodeURIComponent(fields.subject || "Website Enquiry")}&body=${body}`;
+    window.location.href = `mailto:${BRAND.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -89,13 +99,12 @@ function ContactForm() {
     return (
       <div className="flex flex-col items-start gap-5 rounded-sm border border-cream-darker bg-white p-10 shadow-sm">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/10">
-          <CheckCircle size={24} strokeWidth={1.6} className="text-gold" />
+          <CheckCircle size={24} strokeWidth={1.6} className="text-gold" aria-hidden="true" />
         </div>
         <div>
-          <h3 className="font-serif text-2xl text-ink">Message Sent</h3>
+          <h3 className="font-serif text-2xl text-ink">{form.successTitle}</h3>
           <p className="mt-2 font-sans text-base leading-relaxed text-ink-muted">
-            Thank you for reaching out. A member of our team will be in touch
-            with you within one business day.
+            {form.successBody}
           </p>
         </div>
       </div>
@@ -112,141 +121,163 @@ function ContactForm() {
       onSubmit={handleSubmit}
       noValidate
       className="rounded-sm border border-cream-darker bg-white p-8 shadow-sm sm:p-10 lg:p-12"
-      aria-label="Contact form"
+      aria-label={form.ariaLabel}
     >
       <p className="mb-8 font-sans text-sm leading-relaxed text-ink-muted">
-        {CONTACT_PAGE.form.subtext}
+        {form.subtext}
       </p>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {/* Name */}
         <div>
           <label htmlFor="cf-name" className={labelClass}>
-            Full Name <span className="text-gold" aria-hidden="true">*</span>
+            {form.labels.name} <span className="text-gold" aria-hidden="true">*</span>
           </label>
           <input
-            id="cf-name" name="name" type="text" autoComplete="name"
-            value={fields.name} onChange={handleChange}
-            placeholder="Your full name"
+            id="cf-name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            required
+            value={fields.name}
+            onChange={handleChange}
+            placeholder={form.placeholders.name}
             className={inputClass}
             aria-required="true"
+            aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "cf-name-err" : undefined}
           />
           {errors.name && <p id="cf-name-err" className={errorClass} role="alert">{errors.name}</p>}
         </div>
 
-        {/* Email */}
         <div>
           <label htmlFor="cf-email" className={labelClass}>
-            Email Address <span className="text-gold" aria-hidden="true">*</span>
+            {form.labels.email} <span className="text-gold" aria-hidden="true">*</span>
           </label>
           <input
-            id="cf-email" name="email" type="email" autoComplete="email"
-            value={fields.email} onChange={handleChange}
-            placeholder="you@example.com"
+            id="cf-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={fields.email}
+            onChange={handleChange}
+            placeholder={form.placeholders.email}
             className={inputClass}
             aria-required="true"
+            aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "cf-email-err" : undefined}
           />
           {errors.email && <p id="cf-email-err" className={errorClass} role="alert">{errors.email}</p>}
         </div>
 
-        {/* Phone */}
         <div>
           <label htmlFor="cf-phone" className={labelClass}>
-            Phone Number
+            {form.labels.phone}
           </label>
           <input
-            id="cf-phone" name="phone" type="tel" autoComplete="tel"
-            value={fields.phone} onChange={handleChange}
-            placeholder="(000) 000-0000"
+            id="cf-phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            value={fields.phone}
+            onChange={handleChange}
+            placeholder={form.placeholders.phone}
             className={inputClass}
           />
         </div>
 
-        {/* Subject */}
         <div>
           <label htmlFor="cf-subject" className={labelClass}>
-            Subject
+            {form.labels.subject}
           </label>
           <input
-            id="cf-subject" name="subject" type="text"
-            value={fields.subject} onChange={handleChange}
-            placeholder="e.g. Work permit, Citizenship"
+            id="cf-subject"
+            name="subject"
+            type="text"
+            value={fields.subject}
+            onChange={handleChange}
+            placeholder={form.placeholders.subject}
             className={inputClass}
           />
         </div>
 
-        {/* Message */}
         <div className="sm:col-span-2">
           <label htmlFor="cf-message" className={labelClass}>
-            Message <span className="text-gold" aria-hidden="true">*</span>
+            {form.labels.message} <span className="text-gold" aria-hidden="true">*</span>
           </label>
           <textarea
-            id="cf-message" name="message" rows={6}
-            value={fields.message} onChange={handleChange}
-            placeholder="Please describe your situation briefly…"
+            id="cf-message"
+            name="message"
+            rows={6}
+            required
+            value={fields.message}
+            onChange={handleChange}
+            placeholder={form.placeholders.message}
             className={`${inputClass} resize-none`}
             aria-required="true"
+            aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "cf-message-err" : undefined}
           />
           {errors.message && <p id="cf-message-err" className={errorClass} role="alert">{errors.message}</p>}
         </div>
       </div>
 
-      {/* Submit */}
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
           className="inline-flex cursor-pointer items-center gap-2.5 rounded-sm bg-gold px-8 py-3.5 font-sans text-sm font-bold text-white transition-colors duration-200 hover:bg-gold-light group w-full sm:w-auto justify-center"
         >
-          Send Message
-          <ArrowRight size={15} strokeWidth={2} aria-hidden="true"
-            className="transition-transform duration-200 group-hover:translate-x-1" />
+          {form.submitLabel}
+          <ArrowRight
+            size={15}
+            strokeWidth={2}
+            aria-hidden="true"
+            className="transition-transform duration-200 group-hover:translate-x-1"
+          />
         </button>
         <p className="font-sans text-xs text-ink-light">
-          * Required fields. We'll respond within one business day.
+          {form.requiredNote}
         </p>
       </div>
     </form>
   );
 }
 
-// ─── Contact Details ──────────────────────────────────────────────────────────
 function ContactDetails() {
+  const { BRAND, CONTACT_PAGE } = useContent();
+  const details = CONTACT_PAGE.details;
   const items = [
     {
       icon: <Phone size={18} strokeWidth={1.5} />,
-      label: "Phone",
+      label: details.phoneLabel,
       value: BRAND.phone,
       href: `tel:${BRAND.phone.replace(/\D/g, "")}`,
     },
     {
       icon: <Mail size={18} strokeWidth={1.5} />,
-      label: "Email",
+      label: details.emailLabel,
       value: BRAND.email,
       href: `mailto:${BRAND.email}`,
     },
     {
       icon: <MapPin size={18} strokeWidth={1.5} />,
-      label: "Office",
+      label: details.officeLabel,
       value: `${BRAND.address.street}, ${BRAND.address.city}`,
       href: null,
     },
     {
       icon: <Clock size={18} strokeWidth={1.5} />,
-      label: CONTACT_PAGE.details.officeHours.label,
-      value: CONTACT_PAGE.details.officeHours.value,
+      label: details.officeHours.label,
+      value: details.officeHours.value,
       href: null,
     },
   ];
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Info card */}
       <div className="rounded-sm border border-cream-darker bg-navy p-8 sm:p-10">
         <h3 className="mb-2 font-serif text-2xl text-white">
-          {CONTACT_PAGE.details.heading}
+          {details.heading}
         </h3>
         <div className="mb-7 mt-1 h-px w-10 bg-gold/50" aria-hidden="true" />
         <ul className="flex flex-col gap-6" role="list">
@@ -277,16 +308,15 @@ function ContactDetails() {
         </ul>
       </div>
 
-      {/* Response time note */}
       <div className="rounded-sm border border-cream-darker bg-gold-subtle p-6">
         <div className="flex items-start gap-3">
           <CheckCircle size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
           <div>
             <p className="font-sans text-xs font-bold uppercase tracking-law text-gold">
-              {CONTACT_PAGE.details.responseTime.label}
+              {details.responseTime.label}
             </p>
             <p className="mt-1 font-sans text-sm leading-relaxed text-ink-muted">
-              {CONTACT_PAGE.details.responseTime.value}
+              {details.responseTime.value}
             </p>
           </div>
         </div>
@@ -295,17 +325,15 @@ function ContactDetails() {
   );
 }
 
-// ─── Main Section ─────────────────────────────────────────────────────────────
 function ContactSection() {
   const headerRef = useScrollReveal(0.1);
-  const formRef   = useScrollReveal(0.06);
+  const formRef = useScrollReveal(0.06);
   const detailRef = useScrollReveal(0.08);
+  const { CONTACT_PAGE } = useContent();
 
   return (
     <section className="bg-cream py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-
-        {/* Section header */}
         <div ref={headerRef} className="mb-14 lg:mb-20">
           <p className="sr eyebrow mb-5 flex items-center gap-3">
             <span className="gold-rule gold-rule--dark" aria-hidden="true" />
@@ -314,7 +342,6 @@ function ContactSection() {
           <div className="sr h-px bg-cream-darker" aria-hidden="true" />
         </div>
 
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16 xl:gap-20">
           <div ref={formRef} className="sr">
             <ContactForm />
@@ -323,13 +350,11 @@ function ContactSection() {
             <ContactDetails />
           </div>
         </div>
-
       </div>
     </section>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   return (
     <main id="main" className="overflow-x-clip">

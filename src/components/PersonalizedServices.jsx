@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
-import { PERSONALIZED } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useContent } from "../i18n";
 
 /**
  * PersonalizedServices
@@ -12,6 +12,7 @@ import { useScrollReveal } from "../hooks/useScrollReveal";
 export default function PersonalizedServices() {
   const leftRef  = useScrollReveal(0.15);
   const rightRef = useScrollReveal(0.1);
+  const { PERSONALIZED, BRAND } = useContent();
 
   return (
     <section
@@ -93,7 +94,7 @@ export default function PersonalizedServices() {
                 <footer>
                   <div className="w-10 h-px bg-gold mb-4" aria-hidden="true" />
                   <cite className="font-sans text-xs text-white/45 not-italic uppercase tracking-law">
-                    Anwari Law
+                    {BRAND.name}
                   </cite>
                 </footer>
               </blockquote>

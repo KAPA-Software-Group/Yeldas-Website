@@ -1,7 +1,7 @@
-import { useRef } from "react";
 import { RollingNumber } from "./ui/rolling-number";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import SpotlightBackground from "./ui/spotlight-background";
+import { useContent } from "../i18n";
 
 /**
  * ClientsStat
@@ -17,10 +17,12 @@ import SpotlightBackground from "./ui/spotlight-background";
  */
 export default function ClientsStat() {
   const wrapRef = useScrollReveal(0.1);
+  const { HOME } = useContent();
+  const copy = HOME.clientsStat;
 
   return (
     <section
-      aria-label="3000+ clients serviced"
+      aria-label={copy.ariaLabel}
       className="relative bg-navy overflow-hidden"
     >
       {/* ── Gold diagonal sweep ──────────────────────────────────────────── */}
@@ -64,7 +66,7 @@ export default function ClientsStat() {
         <div className="flex items-center gap-4 mb-8 sr" aria-hidden="true">
           <span className="block w-12 h-px bg-gold/50" />
           <span className="font-sans text-xs text-gold-muted uppercase tracking-law">
-            Trusted Across Canada &amp; Beyond
+            {copy.eyebrow}
           </span>
           <span className="block w-12 h-px bg-gold/50" />
         </div>
@@ -90,7 +92,7 @@ export default function ClientsStat() {
             className="sr font-sans text-gold-muted uppercase tracking-law text-xs md:text-sm mt-5 mb-8"
             style={{ transitionDelay: "120ms" }}
           >
-            Clients Serviced
+            {copy.label}
           </p>
 
           {/* Thin gold divider */}
@@ -106,8 +108,7 @@ export default function ClientsStat() {
           className="sr font-serif text-white/40 text-lg md:text-xl lg:text-2xl italic max-w-xl leading-relaxed"
           style={{ transitionDelay: "240ms" }}
         >
-          Every case handled with precision, dignity, and an unwavering
-          commitment to results.
+          {copy.line}
         </p>
       </div>
     </section>

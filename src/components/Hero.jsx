@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { HERO } from "../constants/content";
+import LocalizedLink from "./LocalizedLink";
+import { useContent } from "../i18n";
 import WireframeDottedGlobe from "./ui/wireframe-dotted-globe";
 import { Waves } from "./ui/wave-background";
 import { RollingNumber } from "./ui/rolling-number";
@@ -52,10 +52,12 @@ const GLOBE_MARKERS = [
 ];
 
 export default function Hero() {
+  const { HERO } = useContent();
+
   return (
     <section
       id="hero"
-      aria-label="Introduction"
+      aria-label={HERO.ariaLabel}
       className="relative min-h-[100svh] flex flex-col lg:flex-row overflow-hidden"
     >
       {/* ── Wave background — base layer behind both panels ──────────────── */}
@@ -99,7 +101,7 @@ export default function Hero() {
 
           {/* CTAs */}
           <div className="hero-line flex flex-wrap items-center gap-4">
-            <Link
+            <LocalizedLink
               to={HERO.primaryCTA.href}
               className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gold hover:bg-gold-light text-white font-sans font-bold text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
             >
@@ -110,14 +112,14 @@ export default function Hero() {
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
-            </Link>
+            </LocalizedLink>
 
-            <Link
+            <LocalizedLink
               to={HERO.secondaryCTA.href}
               className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/25 hover:border-gold/60 text-white/80 hover:text-white font-sans text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer"
             >
               {HERO.secondaryCTA.label}
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
 
@@ -128,7 +130,7 @@ export default function Hero() {
         >
           <div className="w-px h-10 bg-white/50 animate-pulse" />
           <span className="font-sans text-xs text-white uppercase tracking-law">
-            Scroll
+            {HERO.scrollLabel}
           </span>
         </div>
       </div>
@@ -144,6 +146,8 @@ export default function Hero() {
           className="absolute inset-0"
           markers={GLOBE_MARKERS}
           highlightColor="#FFFFFF"
+          ariaLabel={HERO.globeAriaLabel}
+          errorMessage={HERO.globeLoadingError}
         />
 
         {/* Radial vignette — fades globe edges into the panel bg */}
@@ -159,10 +163,10 @@ export default function Hero() {
         <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3 z-10 pointer-events-none">
           <div className="w-10 h-px bg-gold/50" aria-hidden="true" />
           <p className="font-serif text-xl text-white/80 leading-tight">
-            Countries We've Served
+            {HERO.globeCaption}
           </p>
           <p className="font-sans text-xs text-gold-muted uppercase tracking-law">
-            <RollingNumber value={28} /> Nations &amp; Growing
+            <RollingNumber value={28} /> {HERO.globeNationsLabel}
           </p>
         </div>
       </div>

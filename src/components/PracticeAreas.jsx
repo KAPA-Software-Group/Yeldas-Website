@@ -1,11 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
-import { PRACTICE_AREAS } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import LocalizedLink from "./LocalizedLink";
+import { useContent } from "../i18n";
 
-function PracticeCard({ area, className = "" }) {
+function PracticeCard({ area, linkLabel, className = "" }) {
   return (
-    <a
-      href={area.href}
+    <LocalizedLink
+      to={area.href}
       aria-label={area.ariaLabel}
       className={`group relative flex flex-col bg-white border border-cream-darker hover:border-gold/40 p-8 xl:p-10 transition-all duration-300 cursor-pointer rounded-sm overflow-hidden hover:shadow-lg hover:shadow-ink/[0.06] hover:-translate-y-0.5 ${className}`}
     >
@@ -35,7 +36,7 @@ function PracticeCard({ area, className = "" }) {
 
       {/* Link */}
       <div className="flex items-center gap-2 text-gold font-sans text-xs font-bold uppercase tracking-law">
-        <span>Learn More</span>
+        <span>{linkLabel}</span>
         <ArrowUpRight
           size={14}
           strokeWidth={2}
@@ -43,13 +44,14 @@ function PracticeCard({ area, className = "" }) {
           className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
         />
       </div>
-    </a>
+    </LocalizedLink>
   );
 }
 
 export default function PracticeAreas() {
   const headerRef = useScrollReveal(0.2);
   const gridRef   = useScrollReveal(0.1);
+  const { PRACTICE_AREAS } = useContent();
 
   return (
     <section
@@ -85,7 +87,12 @@ export default function PracticeAreas() {
           className="sr-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
         >
           {PRACTICE_AREAS.areas.map((area) => (
-            <PracticeCard key={area.number} area={area} className="sr" />
+            <PracticeCard
+              key={area.number}
+              area={area}
+              linkLabel={PRACTICE_AREAS.linkLabel}
+              className="sr"
+            />
           ))}
         </div>
       </div>

@@ -31,8 +31,8 @@ export default {
       },
       // ─── Typography ──────────────────────────────────────────────────────
       fontFamily: {
-        serif: ['"EB Garamond"', "Georgia", "Cambria", "serif"],
-        sans: ["Lato", "system-ui", "sans-serif"],
+        serif: ['"EB Garamond"', '"Noto Serif JP"', '"Yu Mincho"', "Georgia", "Cambria", "serif"],
+        sans: ["Lato", '"Noto Sans JP"', '"Hiragino Sans"', '"Yu Gothic"', "Meiryo", "system-ui", "sans-serif"],
       },
       // ─── Letter Spacing ──────────────────────────────────────────────────
       letterSpacing: {
