@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 /**
  * PersonalizedServices
@@ -35,12 +36,12 @@ export default function PersonalizedServices() {
               id="personalized-services-heading"
               className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-6"
             >
-              {PERSONALIZED.heading}
+              <LineBreakText text={PERSONALIZED.heading} />
             </h2>
 
             {/* Body copy */}
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-10 max-w-md">
-              {PERSONALIZED.body}
+              <LineBreakText text={PERSONALIZED.body} />
             </p>
 
             {/* Feature List */}
@@ -57,7 +58,7 @@ export default function PersonalizedServices() {
                     <Check size={11} strokeWidth={2.5} className="text-gold-dark" />
                   </span>
                   <span className="font-sans text-base text-ink-muted leading-snug">
-                    {feature}
+                    <LineBreakText text={feature} />
                   </span>
                 </li>
               ))}
@@ -89,7 +90,7 @@ export default function PersonalizedServices() {
               {/* Pull Quote */}
               <blockquote className="relative">
                 <p className="font-serif text-2xl xl:text-3xl text-white leading-snug italic mb-8">
-                  {PERSONALIZED.pullQuote}
+                  <LineBreakText text={PERSONALIZED.pullQuote} />
                 </p>
                 <footer>
                   <div className="w-10 h-px bg-gold mb-4" aria-hidden="true" />

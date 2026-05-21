@@ -2,6 +2,7 @@ import { RollingNumber } from "./ui/rolling-number";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import SpotlightBackground from "./ui/spotlight-background";
 import { useContent } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 /**
  * ClientsStat
@@ -108,7 +109,7 @@ export default function ClientsStat() {
           className="sr font-serif text-white/40 text-lg md:text-xl lg:text-2xl italic max-w-xl leading-relaxed"
           style={{ transitionDelay: "240ms" }}
         >
-          {copy.line}
+          <LineBreakText text={copy.line} />
         </p>
       </div>
     </section>

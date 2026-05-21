@@ -524,7 +524,7 @@ export const CONTENT = {
   ja: {
     BRAND: {
       ...sharedBrand,
-      tagline: "カナダ移民法法律事務所",
+      tagline: "カナダ移民法に特化した法律事務所",
     },
     UI: {
       languageSwitcherLabel: "言語",
@@ -557,7 +557,7 @@ export const CONTENT = {
         home: {
           title: "Anwari Law - カナダ移民法サービス",
           description:
-            "Anwari Lawはトロントを拠点とするカナダ移民法法律事務所です。難民申請、不服申立て、就労許可、永住権、市民権などをサポートします。",
+            "Anwari Lawはトロントを拠点とする、カナダ移民法に特化した法律事務所です。難民申請、不服申立て、就労許可、永住権、市民権などをサポートします。",
         },
         services: {
           title: "移民法サービス - Anwari Law",
@@ -578,15 +578,15 @@ export const CONTENT = {
     },
     HERO: {
       ariaLabel: "イントロダクション",
-      eyebrow: "カナダ移民法法律事務所 · オンタリオ州トロント",
+      eyebrow: "カナダ移民法に特化した法律事務所\nオンタリオ州トロント",
       headlineTop: "カナダ移民法",
-      headlineBottom: "信頼できる法律サポート",
+      headlineBottom: "信頼できる\n法的サポート",
       subtext:
-        "Anwari Lawはトロントを拠点とする移民法法律事務所です。難民申請、エクスプレス・エントリー、就労許可、市民権、不服申立てまで、カナダ国内外の依頼者を支援しています。",
+        "Anwari Lawはトロントを拠点とする、\n移民法に特化した法律事務所です。\n難民申請、エクスプレス・エントリー、\n就労許可、市民権、不服申立てまで、\nカナダ国内外の依頼者を支援しています。",
       primaryCTA: { label: "ご相談を予約", href: "/contact" },
       secondaryCTA: { label: "サービスを見る", href: "/services" },
       imageSrc: null,
-      imageAlt: "Anwari Law - トロントの専門的な法律サポート",
+      imageAlt: "Anwari Law - トロントの専門的な法的サポート",
       scrollLabel: "スクロール",
       globeCaption: "支援実績のある国",
       globeNationsLabel: "か国以上をサポート",
@@ -598,16 +598,16 @@ export const CONTENT = {
         ariaLabel: "3000件以上の依頼者をサポート",
         eyebrow: "カナダ全土と国外からの信頼",
         label: "サポートした依頼者",
-        line: "すべての案件に、正確さ、尊厳、そして結果への揺るぎない姿勢で向き合います。",
+        line: "すべての案件に、正確さと尊厳をもって向き合い、\n結果に向けて着実に取り組みます。",
       },
       meetTeam: {
         eyebrow: "案件を支えるチーム",
         headingTop: "チームを",
         headingEmphasis: "紹介",
         body:
-          "私たちのチームは、法律知識、文化的理解、そして依頼者一人ひとりの結果への真摯な姿勢を大切にしています。言語面でも専門面でも寄り添いながら、カナダの移民制度を一歩ずつ進めます。",
+          "私たちのチームは、法的知識と文化的理解を大切にし、\n依頼者一人ひとりの結果に真摯に向き合います。\n言語面でも専門面でも寄り添いながら、\nカナダの移民制度を一歩ずつ進めます。",
         secondary:
-          "難民申請から永住権まで、丁寧な準備と親身な代理活動を組み合わせ、細部まで見落とさない支援を行います。",
+          "難民申請から永住権まで、丁寧な準備と親身な代理活動を組み合わせ、\n細部まで見落とさない支援を行います。",
         location: "Anwari Law - カナダ・トロント",
         imageAlt: "Anwari Lawの移民法チーム",
         caption: "チーム - トロント",
@@ -616,14 +616,14 @@ export const CONTENT = {
     PRACTICE_AREAS: {
       eyebrow: "取扱内容",
       heading: "主な取扱分野",
-      subtext: "状況に合わせた包括的な移民法・法律サービスを提供します。",
+      subtext: "状況に合わせた包括的な\nカナダ移民法サービスを提供します。",
       linkLabel: "詳しく見る",
       areas: [
         {
           number: "01",
           title: "難民",
           description:
-            "難民保護、永住権など。複雑な難民申請手続きを、専門知識と揺るぎない配慮で支援します。",
+            "難民保護、永住権など。\n複雑な難民申請手続きを、\n専門知識と配慮をもって支援します。",
           href: "/services",
           ariaLabel: "難民関連の法律サービスについて詳しく見る",
         },
@@ -631,7 +631,7 @@ export const CONTENT = {
           number: "02",
           title: "拒否・不服申立て",
           description:
-            "退去延期申請や再申請が必要な場合にも対応します。移民申請の拒否や行政上の不服申立てに、的確な代理を提供します。",
+            "退去延期申請や再申請にも対応します。\n移民申請の拒否や行政上の不服申立てに、\n的確な代理を提供します。",
           href: "/services",
           ariaLabel: "拒否・不服申立てサービスについて詳しく見る",
         },
@@ -639,7 +639,7 @@ export const CONTENT = {
           number: "03",
           title: "その他のサービス",
           description:
-            "犯罪による入国不許可とリハビリテーション、公証サービス、エクスプレス・エントリーなど、幅広い法律ニーズに対応します。",
+            "犯罪による入国不許可とリハビリテーション、\n公証サービス、エクスプレス・エントリーなど、\n幅広い法的ニーズに対応します。",
           href: "/services",
           ariaLabel: "その他の法律サービスについて詳しく見る",
         },
@@ -647,23 +647,23 @@ export const CONTENT = {
     },
     PERSONALIZED: {
       eyebrow: "私たちのアプローチ",
-      heading: "一人ひとりに合わせた法律サービス",
+      heading: "一人ひとりに合わせた\n法的サービス",
       body:
-        "法律上のニーズに万能の解決策はありません。目指す結果に合わせて、チームと戦略を組み立てます。",
+        "法的ニーズに万能の解決策はありません。\n目指す結果に合わせて、\nチームと戦略を組み立てます。",
       features: [
         "状況に合わせた戦略設計",
-        "担当法律チームへの直接アクセス",
-        "各段階での明確で透明なコミュニケーション",
+        "担当チームへの直接アクセス",
+        "各段階での明確で透明な\nコミュニケーション",
         "申請から完了までの包括的なケース管理",
       ],
       pullQuote:
-        "私たちは案件を処理するだけではなく、その背景にある人生を理解します。",
+        "私たちは案件だけでなく、\nその背景にある人生も\n理解します。",
     },
     CONSULTATION: {
       eyebrow: "次の一歩へ",
-      heading: "最初の一歩を踏み出しませんか",
+      heading: "最初の一歩を\n踏み出しませんか",
       subtext:
-        "法律チームに直接ご相談ください。状況を理解し、前に進むための明確な道筋を一緒に整理します。",
+        "私たちに直接ご相談ください。\n状況を丁寧に確認し、前に進むための道筋を\n一緒に整理します。",
       cta: { label: "ご相談を予約", href: "/contact" },
       phone: sharedBrand.phone,
       phoneLabel: "お電話でのご連絡",
@@ -672,7 +672,7 @@ export const CONTENT = {
       eyebrow: "サービス内容",
       heading: "取扱サービス",
       subtext:
-        "すべての案件は異なります。カナダ移民法の幅広い分野で、状況に合わせた助言を提供します。",
+        "すべての案件は異なります。\nカナダ移民法の幅広い分野で、\n状況に合わせた助言を提供します。",
       detail: {
         ctaLabel: "ご相談を予約",
         ctaAriaLabel: "移民法サービスについて相談を予約する",
@@ -683,9 +683,9 @@ export const CONTENT = {
         helperSuffix: "。適切な方向性をご案内します。",
         categorySubtitles: {
           inadmissibility: "健康上の理由 · 犯罪歴 · 国外退去",
-          "permanent-resident": "エクスプレス・エントリー · ファミリークラス · 州推薦ほか",
-          "temporary-resident": "就労許可 · 就学許可 · 訪問ビザほか",
-          "business-immigration": "スタートアップ · 起業家 · 企業内転勤",
+          "permanent-resident": "エクスプレス・エントリー ·\nファミリークラス · 州推薦ほか",
+          "temporary-resident": "就労許可 · 就学許可 ·\n訪問ビザほか",
+          "business-immigration": "スタートアップ · 起業家 ·\n企業内転勤",
           citizenship: "申請 · 拒否対応 · パスポート · 回復",
         },
       },
@@ -750,7 +750,7 @@ export const CONTENT = {
       },
     },
     FOOTER: {
-      tagline: "オンタリオ州トロントを拠点とするカナダ移民法法律事務所です。",
+      tagline: "オンタリオ州トロントを拠点とする\nカナダ移民法に特化した法律事務所です。",
       quickLinksHeading: "クイックリンク",
       contactHeading: "連絡先",
       quickLinks: [

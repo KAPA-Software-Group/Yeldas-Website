@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Linkedin } from "lucide-react";
 import LocalizedLink from "./LocalizedLink";
 import { useContent } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 /**
  * Footer
@@ -52,7 +53,7 @@ export default function Footer() {
             </div>
 
             <p className="font-sans text-sm text-white/50 leading-relaxed max-w-xs mb-6">
-              {FOOTER.tagline}
+              <LineBreakText text={FOOTER.tagline} />
             </p>
 
             {/* Social */}

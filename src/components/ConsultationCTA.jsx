@@ -3,6 +3,7 @@ import LocalizedLink from "./LocalizedLink";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
 import { BeamsBackground } from "./ui/beams-background";
+import LineBreakText from "./LineBreakText";
 
 /**
  * ConsultationCTA
@@ -62,7 +63,7 @@ export default function ConsultationCTA() {
             className="sr font-serif text-5xl md:text-6xl lg:text-7xl text-white leading-display mb-7"
             style={{ transitionDelay: "80ms" }}
           >
-            {CONSULTATION.heading}
+            <LineBreakText text={CONSULTATION.heading} />
           </h2>
 
           {/* Subtext */}
@@ -70,7 +71,7 @@ export default function ConsultationCTA() {
             className="sr font-sans text-lg text-white/60 leading-relaxed max-w-xl mb-12"
             style={{ transitionDelay: "160ms" }}
           >
-            {CONSULTATION.subtext}
+            <LineBreakText text={CONSULTATION.subtext} />
           </p>
 
           {/* Actions */}

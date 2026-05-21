@@ -5,6 +5,7 @@ import WireframeDottedGlobe from "./ui/wireframe-dotted-globe";
 import { Waves } from "./ui/wave-background";
 import { RollingNumber } from "./ui/rolling-number";
 import TorontoSkyline from "./ui/toronto-skyline";
+import LineBreakText from "./LineBreakText";
 
 /**
  * ─── GLOBE MARKERS ───────────────────────────────────────────────────────────
@@ -82,13 +83,17 @@ export default function Hero() {
           {/* Eyebrow */}
           <p className="hero-line eyebrow mb-6 flex items-center gap-3">
             <span className="gold-rule" aria-hidden="true" />
-            {HERO.eyebrow}
+            <span>
+              <LineBreakText text={HERO.eyebrow} />
+            </span>
           </p>
 
           {/* Headline */}
           <h1 className="hero-line font-serif text-3xl sm:text-4xl md:text-5xl xl:text-[4.25rem] text-white leading-display mb-6">
             <span className="block">{HERO.headlineTop}</span>
-            <em className="not-italic text-gold-muted block">{HERO.headlineBottom}</em>
+            <em className="not-italic text-gold-muted block">
+              <LineBreakText text={HERO.headlineBottom} />
+            </em>
           </h1>
 
           {/* Thin gold divider */}
@@ -96,7 +101,7 @@ export default function Hero() {
 
           {/* Subtext */}
           <p className="hero-line font-sans text-lg text-white/65 leading-relaxed mb-10 max-w-md">
-            {HERO.subtext}
+            <LineBreakText text={HERO.subtext} />
           </p>
 
           {/* CTAs */}

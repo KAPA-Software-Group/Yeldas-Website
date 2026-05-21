@@ -7,6 +7,7 @@ import { useScrollReveal } from "../hooks/useScrollReveal";
 import { RollingNumber } from "./ui/rolling-number";
 import LocalizedLink from "./LocalizedLink";
 import { useI18n } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 /**
  * ServicesDetail
@@ -51,11 +52,11 @@ export default function ServicesDetail() {
               id="services-detail-heading"
               className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-6"
             >
-              {SERVICES.heading}
+              <LineBreakText text={SERVICES.heading} />
             </h2>
 
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-10 max-w-md">
-              {SERVICES.subtext}
+              <LineBreakText text={SERVICES.subtext} />
             </p>
 
             <div className="w-10 h-px bg-gold mb-10" aria-hidden="true" />

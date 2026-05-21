@@ -1,6 +1,7 @@
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
 import { SmokeBackground } from "./ui/spooky-smoke-animation";
+import LineBreakText from "./LineBreakText";
 
 /**
  * MeetTheTeam
@@ -66,11 +67,11 @@ export default function MeetTheTeam() {
 
             {/* Body */}
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6 max-w-md">
-              {copy.body}
+              <LineBreakText text={copy.body} />
             </p>
 
             <p className="font-sans text-base text-ink-light leading-relaxed max-w-md">
-              {copy.secondary}
+              <LineBreakText text={copy.secondary} />
             </p>
 
             {/* Bottom accent */}

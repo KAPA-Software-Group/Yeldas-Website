@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import LocalizedLink from "./LocalizedLink";
 import { useContent } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 function PracticeCard({ area, linkLabel, className = "" }) {
   return (
@@ -26,12 +27,12 @@ function PracticeCard({ area, linkLabel, className = "" }) {
 
       {/* Title */}
       <h3 className="font-serif text-2xl xl:text-3xl text-ink mb-4 leading-tight group-hover:text-navy transition-colors duration-200">
-        {area.title}
+        <LineBreakText text={area.title} />
       </h3>
 
       {/* Description */}
       <p className="font-sans text-sm text-ink-muted leading-relaxed mb-8 flex-1">
-        {area.description}
+        <LineBreakText text={area.description} />
       </p>
 
       {/* Link */}
@@ -71,10 +72,10 @@ export default function PracticeAreas() {
               id="practice-areas-heading"
               className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-tight max-w-lg"
             >
-              {PRACTICE_AREAS.heading}
+              <LineBreakText text={PRACTICE_AREAS.heading} />
             </h2>
             <p className="font-sans text-base text-ink-muted max-w-xs lg:text-right">
-              {PRACTICE_AREAS.subtext}
+              <LineBreakText text={PRACTICE_AREAS.subtext} />
             </p>
           </div>
           {/* Separator */}
