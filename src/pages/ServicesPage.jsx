@@ -2,11 +2,14 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import LocalizedLink from "../components/LocalizedLink";
 import TorontoSkyline from "../components/ui/toronto-skyline";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { useContent } from "../i18n";
+import { useContent, useI18n } from "../i18n";
+import LineBreakText from "../components/LineBreakText";
 
 function HeroSection() {
-  const { SERVICES_PAGE } = useContent();
+  const { content, locale } = useI18n();
+  const { SERVICES_PAGE } = content;
   const copy = SERVICES_PAGE.hero;
+  const headingSpacer = locale === "ja" ? "" : " ";
 
   return (
     <section
@@ -36,12 +39,14 @@ function HeroSection() {
             className="hero-line font-serif leading-display text-white"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
-            {copy.headingPrefix}{" "}
-            <em className="not-italic text-gold-muted">{copy.headingEmphasis}</em>
+            <LineBreakText text={copy.headingPrefix} />{headingSpacer}
+            <em className="not-italic text-gold-muted">
+              <LineBreakText text={copy.headingEmphasis} />
+            </em>
           </h1>
           <div className="hero-line mt-8 h-px w-16 bg-gold/40" aria-hidden="true" />
           <p className="hero-line mt-8 max-w-2xl font-sans text-xl leading-relaxed text-white/65">
-            {copy.subtext}
+            <LineBreakText text={copy.subtext} />
           </p>
           <div className="hero-line mt-10">
             <LocalizedLink
@@ -72,8 +77,10 @@ function HeroSection() {
 
 function IntroSection() {
   const ref = useScrollReveal(0.1);
-  const { SERVICES_PAGE } = useContent();
+  const { content, locale } = useI18n();
+  const { SERVICES_PAGE } = content;
   const copy = SERVICES_PAGE.intro;
+  const headingSpacer = locale === "ja" ? "" : " ";
 
   return (
     <section className="border-b border-cream-darker bg-cream py-24 lg:py-32">
@@ -87,11 +94,26 @@ function IntroSection() {
             className="text-balance font-serif leading-display text-ink"
             style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
           >
-            {copy.headingPrefix}{" "}
-            <em className="not-italic text-navy-mid">{copy.headingEmphasis}</em>
+            {locale === "ja" ? (
+              <>
+                <span className="block">
+                  <LineBreakText text={copy.headingPrefix} />
+                </span>
+                <em className="not-italic text-navy-mid block">
+                  <LineBreakText text={copy.headingEmphasis} />
+                </em>
+              </>
+            ) : (
+              <>
+                <LineBreakText text={copy.headingPrefix} />{headingSpacer}
+                <em className="not-italic text-navy-mid">
+                  <LineBreakText text={copy.headingEmphasis} />
+                </em>
+              </>
+            )}
           </h2>
           <p className="max-w-sm font-sans text-lg leading-relaxed text-ink-muted lg:text-right lg:shrink-0">
-            {copy.subtext}
+            <LineBreakText text={copy.subtext} />
           </p>
         </div>
         <div className="sr mt-10 h-px bg-cream-darker" aria-hidden="true" />
@@ -131,7 +153,7 @@ function ServiceSection({ category, index }) {
             <div className="sr mt-7 h-px w-14 bg-gold/50" aria-hidden="true" />
             {meta.description && (
               <p className="sr mt-7 font-sans text-base leading-relaxed text-ink-muted">
-                {meta.description}
+                <LineBreakText text={meta.description} />
               </p>
             )}
           </div>
@@ -153,7 +175,7 @@ function ServiceSection({ category, index }) {
                     aria-hidden="true"
                   />
                   <span className="font-sans text-base leading-relaxed text-ink-muted sm:text-lg">
-                    {item}
+                    <LineBreakText text={item} />
                   </span>
                 </li>
               ))}
@@ -205,10 +227,10 @@ function CTASection() {
           className="sr text-balance font-serif leading-display text-white"
           style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
         >
-          {copy.heading}
+          <LineBreakText text={copy.heading} />
         </h2>
         <p className="sr mx-auto mt-8 max-w-xl font-sans text-lg leading-relaxed text-white/60">
-          {copy.subtext}
+          <LineBreakText text={copy.subtext} />
         </p>
         <div className="sr mt-10">
           <LocalizedLink
