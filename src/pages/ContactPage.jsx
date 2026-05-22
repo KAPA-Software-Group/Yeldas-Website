@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, ArrowRight, CheckCircle, Clock } from "lucide-react";
+import LineBreakText from "../components/LineBreakText";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
 
@@ -34,7 +35,7 @@ function HeroSection() {
             className="hero-line font-serif leading-display text-white"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
-            {CONTACT_PAGE.hero.heading}
+            <LineBreakText text={CONTACT_PAGE.hero.heading} />
           </h1>
           <div className="hero-line mt-8 h-px w-16 bg-gold/40" aria-hidden="true" />
           <p className="hero-line mt-8 max-w-2xl font-sans text-xl leading-relaxed text-white/65">
