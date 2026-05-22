@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import LineBreakText from "../components/LineBreakText";
 import LocalizedLink from "../components/LocalizedLink";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
@@ -35,11 +36,11 @@ function HeroSection() {
             className="hero-line font-serif leading-display text-white"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
-            {ABOUT.hero.heading}
+            <LineBreakText text={ABOUT.hero.heading} />
           </h1>
           <div className="hero-line mt-8 h-px w-16 bg-gold/40" aria-hidden="true" />
           <p className="hero-line mt-8 max-w-2xl font-sans text-xl leading-relaxed text-white/65">
-            {ABOUT.hero.subtext}
+            <LineBreakText text={ABOUT.hero.subtext} />
           </p>
         </div>
       </div>
@@ -69,7 +70,7 @@ function StorySection() {
               className="sr text-balance font-serif leading-display text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
             >
-              {ABOUT.story.heading}
+              <LineBreakText text={ABOUT.story.heading} />
             </h2>
             <div className="sr mt-8 h-px w-14 bg-gold/50" aria-hidden="true" />
           </div>
@@ -81,7 +82,7 @@ function StorySection() {
                 className="sr font-sans text-lg leading-relaxed text-ink-muted"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                {para}
+                <LineBreakText text={para} />
               </p>
             ))}
           </div>
@@ -109,10 +110,10 @@ function ValuesSection() {
               className="text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              {ABOUT.valuesSection.heading}
+              <LineBreakText text={ABOUT.valuesSection.heading} />
             </h2>
             <p className="max-w-xs font-sans text-base text-ink-muted lg:text-right">
-              {ABOUT.valuesSection.subtext}
+              <LineBreakText text={ABOUT.valuesSection.subtext} />
             </p>
           </div>
           <div className="sr mt-8 h-px bg-cream-darker" aria-hidden="true" />
@@ -139,10 +140,10 @@ function ValuesSection() {
                 {value.number}
               </span>
               <h3 className="mb-3 font-serif text-2xl text-ink transition-colors duration-200 group-hover:text-navy">
-                {value.title}
+                <LineBreakText text={value.title} />
               </h3>
               <p className="flex-1 font-sans text-sm leading-relaxed text-ink-muted">
-                {value.description}
+                <LineBreakText text={value.description} />
               </p>
             </div>
           ))}
@@ -170,11 +171,11 @@ function ApproachSection() {
               className="sr text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              {ABOUT.approach.heading}
+              <LineBreakText text={ABOUT.approach.heading} />
             </h2>
             <div className="sr mt-7 h-px w-14 bg-gold/50" aria-hidden="true" />
             <p className="sr mt-7 font-sans text-base leading-relaxed text-ink-muted">
-              {ABOUT.approach.body}
+              <LineBreakText text={ABOUT.approach.body} />
             </p>
           </div>
 
@@ -192,7 +193,7 @@ function ApproachSection() {
                     aria-hidden="true"
                   />
                   <span className="font-sans text-base leading-relaxed text-ink-muted sm:text-lg">
-                    {point}
+                    <LineBreakText text={point} />
                   </span>
                 </li>
               ))}
@@ -254,7 +255,7 @@ function TeamCard({ member, teamCopy }) {
           <span className="absolute bottom-0 left-0 right-0 block bg-gradient-to-t from-navy via-navy/80 to-transparent px-6 pb-6 pt-14">
             <span className="block font-serif text-xl text-white leading-tight">{member.name}</span>
             <span className="mt-1 block font-sans text-xs uppercase tracking-law text-gold-muted">
-              {member.role}
+              <LineBreakText text={member.role} />
             </span>
           </span>
 
@@ -270,14 +271,14 @@ function TeamCard({ member, teamCopy }) {
         >
           <span className="mb-6 h-px w-10 bg-gold/50" aria-hidden="true" />
           <span className="font-sans text-xs font-bold uppercase tracking-law text-gold-muted">
-            {member.role}
+            <LineBreakText text={member.role} />
           </span>
           <span className="mt-2 block font-serif text-2xl text-white leading-tight">
             {member.name}
           </span>
           <span className="mt-5 h-px w-full bg-white/10" aria-hidden="true" />
           <span className="mt-5 flex-1 font-sans text-sm leading-relaxed text-white/70">
-            {member.bio}
+            <LineBreakText text={member.bio} />
           </span>
           <span className="mt-6 h-2 w-2 self-start rounded-full bg-gold/30" aria-hidden="true" />
         </span>
@@ -304,10 +305,10 @@ function TeamSection() {
               className="text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              {ABOUT.teamSection.heading}
+              <LineBreakText text={ABOUT.teamSection.heading} />
             </h2>
             <p className="max-w-xs font-sans text-base text-ink-muted lg:text-right">
-              {ABOUT.teamSection.subtext}
+              <LineBreakText text={ABOUT.teamSection.subtext} />
             </p>
           </div>
           <div className="sr mt-8 h-px bg-cream-darker" aria-hidden="true" />
@@ -344,10 +345,10 @@ function CTASection() {
           className="sr text-balance font-serif leading-display text-white"
           style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
         >
-          {ABOUT.cta.heading}
+          <LineBreakText text={ABOUT.cta.heading} />
         </h2>
         <p className="sr mx-auto mt-8 max-w-xl font-sans text-lg leading-relaxed text-white/60">
-          {ABOUT.cta.subtext}
+          <LineBreakText text={ABOUT.cta.subtext} />
         </p>
         <div className="sr mt-10">
           <LocalizedLink
