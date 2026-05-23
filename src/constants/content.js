@@ -579,8 +579,8 @@ export const CONTENT = {
     HERO: {
       ariaLabel: "イントロダクション",
       eyebrow: "カナダ移民法に特化した法律事務所\nオンタリオ州トロント",
-      headlineTop: "カナダ移民法",
-      headlineBottom: "信頼できる\n法的サポート",
+      headlineTop: "信頼を誇る",
+      headlineBottom: "カナダ移民法弁護士",
       subtext:
         "Anwari Lawはトロントを拠点とする、\n移民法に特化した法律事務所です。\n難民申請、エクスプレス・エントリー、\n就労許可、市民権、不服申立てまで、\nカナダ国内外の依頼者を支援しています。",
       primaryCTA: { label: "ご相談を予約", href: "/contact" },
@@ -602,8 +602,8 @@ export const CONTENT = {
       },
       meetTeam: {
         eyebrow: "案件を支えるチーム",
-        headingTop: "チームを",
-        headingEmphasis: "紹介",
+        headingTop: "チームの紹介",
+        headingEmphasis: "",
         body:
           "私たちのチームは、\n法的知識と文化的理解を大切にし、\n依頼者一人ひとりの結果に真摯に向き合います。\n言語面でも専門面でも寄り添いながら、\nカナダの移民制度を一歩ずつ進めます。",
         secondary:
@@ -652,12 +652,12 @@ export const CONTENT = {
         "法的ニーズに万能の解決策はありません。\n目指す結果に合わせて、\nチームと戦略を組み立てます。",
       features: [
         "状況に合わせた戦略設計",
-        "担当チームへの直接アクセス",
-        "各段階での明確で透明な\nコミュニケーション",
-        "申請から完了までの包括的なケース管理",
+        "担当弁護士と直通で相談可能",
+        "あらゆるステップにおいて、常にオープンで分かりやすい説明",
+        "最初のご相談から解決まで、包括的なケースマネジメント",
       ],
       pullQuote:
-        "私たちは案件だけでなく、\nその背景にある人生も\n理解します。",
+        "私たちが向き合うのは「案件」ではなく、皆様の大切な人生そのものです",
     },
     CONSULTATION: {
       eyebrow: "次の一歩へ",
@@ -672,7 +672,7 @@ export const CONTENT = {
       eyebrow: "サービス内容",
       heading: "取扱サービス",
       subtext:
-        "すべての案件は異なります。\nカナダ移民法の幅広い分野で、\n状況に合わせた助言を提供します。",
+        "すべての案件は異なります。\nカナダ移民法の幅広い分野で、\n状況に合わせ法的アドバイスを提供します",
       detail: {
         ctaLabel: "ご相談を予約",
         ctaAriaLabel: "移民法サービスについて相談を予約する",
@@ -683,10 +683,10 @@ export const CONTENT = {
         helperSuffix: "。適切な方向性をご案内します。",
         categorySubtitles: {
           inadmissibility: "健康上の理由 · 犯罪歴 · 国外退去",
-          "permanent-resident": "エクスプレス・エントリー ·\nファミリークラス · 州推薦ほか",
+          "permanent-resident": "エクスプレス・エントリー ·\nファミリークラス 各州ノミネーションプログラム薦ほか",
           "temporary-resident": "就労許可 · 就学許可 ·\n訪問ビザほか",
           "business-immigration": "スタートアップ · 起業家 ·\n企業内転勤",
-          citizenship: "申請 · 拒否対応 · パスポート · 回復",
+          citizenship: "申請 · 拒否対応 · パスポート · 市民権の回復",
         },
       },
       categories: sharedServices.map((category) => ({

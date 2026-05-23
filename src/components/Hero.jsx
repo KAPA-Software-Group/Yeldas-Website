@@ -91,7 +91,7 @@ export default function Hero() {
           {/* Headline */}
           <h1 className="hero-line font-serif text-3xl sm:text-4xl md:text-5xl xl:text-[4.25rem] text-white leading-display mb-6">
             <span className="block">{HERO.headlineTop}</span>
-            <em className="not-italic text-gold-muted block">
+            <em className="not-italic text-gold-muted block whitespace-nowrap">
               <LineBreakText text={HERO.headlineBottom} />
             </em>
           </h1>
