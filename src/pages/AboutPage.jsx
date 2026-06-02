@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowRight, CheckCircle, RotateCcw } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, CheckCircle, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ABOUT, BRAND } from "../constants/content";
 import { useScrollReveal } from "../hooks/useScrollReveal";
@@ -214,113 +214,176 @@ function ApproachSection() {
   );
 }
 
-// ─── Team ─────────────────────────────────────────────────────────────────────
-function TeamCard({ member }) {
-  const [flipped, setFlipped] = useState(false);
+// ─── Team Modal ───────────────────────────────────────────────────────────────
+function TeamModal({ member, onClose }) {
+  const [lang, setLang] = useState("en");
+  const [visible, setVisible] = useState(false);
+  const hasJapanese = !!member.bioJa;
 
-  const initials = member.name
-    .split(" ")
-    .filter((w) => w !== "Coming")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setVisible(true));
+    const handler = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  const bioText = lang === "ja" && hasJapanese ? member.bioJa : member.bio;
+  const paragraphs = bioText.split("\n\n").filter(Boolean);
 
   return (
     <div
-      role="button"
-      tabIndex={0}
-      aria-label={`${member.name} — click to ${flipped ? "see photo" : "read bio"}`}
-      className="cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[2.5rem]"
-      style={{ perspective: "1200px", height: "34rem" }}
-      onClick={() => setFlipped((f) => !f)}
-      onKeyDown={(e) => e.key === "Enter" && setFlipped((f) => !f)}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+      style={{
+        background: `rgba(10, 15, 31, ${visible ? 0.75 : 0})`,
+        backdropFilter: "blur(6px)",
+        transition: "background 0.35s ease",
+      }}
+      onClick={onClose}
     >
       <div
-        className="relative h-full w-full"
+        className="relative flex w-full max-w-4xl flex-col overflow-hidden rounded-sm bg-white shadow-2xl lg:flex-row"
         style={{
-          transformStyle: "preserve-3d",
-          transition: "transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)",
-          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          maxHeight: "90vh",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0) scale(1)" : "translateY(20px) scale(0.97)",
+          transition: "opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* ── Front ── */}
-        <div
-          className="absolute inset-0 overflow-hidden rounded-[2.5rem] border-2 border-ink/10 shadow-xl"
-          style={{ backfaceVisibility: "hidden" }}
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink shadow transition-colors hover:bg-cream"
         >
+          <X size={16} strokeWidth={2} />
+        </button>
+
+        {/* Photo */}
+        <div className="h-64 shrink-0 overflow-hidden lg:h-auto lg:w-[38%]">
           {member.photo ? (
-            <>
-              <img
-                src={member.photo}
-                alt={member.name}
-                className="h-full w-full object-cover object-top grayscale transition-all duration-700 ease-out"
-                style={{ filter: "grayscale(100%)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.filter = "grayscale(0%)")}
-                onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(100%)")}
-              />
-            </>
+            <img
+              src={member.photo}
+              alt={member.name}
+              className="h-full w-full object-cover object-top"
+            />
           ) : (
-            /* Placeholder — styled initials block */
-            <div className="flex h-full w-full flex-col items-center justify-center bg-navy-mid">
-              <div
-                className="flex items-center justify-center rounded-full border border-gold/30 bg-navy text-gold-muted"
-                style={{ width: "5rem", height: "5rem" }}
-              >
-                <span className="font-serif text-2xl select-none">?</span>
-              </div>
-              <p className="mt-5 font-sans text-xs uppercase tracking-law text-white/30">
-                Photo Coming Soon
-              </p>
+            <div className="flex h-full w-full items-center justify-center bg-navy">
+              <span className="select-none font-serif text-4xl text-gold-muted">?</span>
             </div>
           )}
-
-          {/* Name bar */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy via-navy/80 to-transparent px-6 pb-6 pt-14">
-            <p className="font-serif text-xl text-white leading-tight">{member.name}</p>
-            <p className="mt-1 font-sans text-xs uppercase tracking-law text-gold-muted">
-              {member.role}
-            </p>
-          </div>
-
-          {/* Flip hint — minimal dot */}
-          <div className="absolute right-4 top-4 h-2 w-2 rounded-full bg-gold/60" aria-hidden="true" />
         </div>
 
-        {/* ── Back ── */}
-        <div
-          className="absolute inset-0 flex flex-col rounded-[2.5rem] border-2 border-white/10 bg-navy p-8"
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-        >
-          {/* Gold top rule */}
-          <div className="mb-6 h-px w-10 bg-gold/50" aria-hidden="true" />
-
-          <p className="font-sans text-xs font-bold uppercase tracking-law text-gold-muted">
+        {/* Content */}
+        <div className="flex flex-1 flex-col overflow-y-auto p-8 lg:p-10">
+          <div className="mb-1 h-px w-10 bg-gold/50" aria-hidden="true" />
+          <p className="mt-4 font-sans text-xs font-bold uppercase tracking-law text-gold">
             {member.role}
           </p>
-          <h3 className="mt-2 font-serif text-2xl text-white leading-tight">
+          <h3 className="mt-2 font-serif text-2xl leading-tight text-ink lg:text-3xl">
             {member.name}
           </h3>
 
-          <div className="mt-5 h-px w-full bg-white/10" aria-hidden="true" />
+          {/* Language toggle — only for bilingual members */}
+          {hasJapanese && (
+            <div className="mt-5 flex gap-2">
+              {[{ code: "en", label: "English" }, { code: "ja", label: "日本語" }].map(({ code, label }) => (
+                <button
+                  key={code}
+                  onClick={() => setLang(code)}
+                  className={`w-24 rounded-sm py-1.5 font-sans text-xs font-bold transition-colors ${
+                    lang === code
+                      ? "bg-navy text-white"
+                      : "border border-cream-darker text-ink-muted hover:border-gold/40 hover:text-ink"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
 
-          <p className="mt-5 flex-1 font-sans text-sm leading-relaxed text-white/70">
-            {member.bio}
-          </p>
+          <div className="mt-6 h-px bg-cream-darker" aria-hidden="true" />
 
-          {/* Flip back — minimal dot */}
-          <div className="mt-6 h-2 w-2 self-start rounded-full bg-gold/30" aria-hidden="true" />
+          {/* Bio paragraphs */}
+          <div className="mt-6 flex flex-col gap-4">
+            {paragraphs.map((para, i) => (
+              <p key={i} className="font-sans text-sm leading-relaxed text-ink-muted">
+                {para}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
+// ─── Team Card ────────────────────────────────────────────────────────────────
+function TeamCard({ member, onClick }) {
+  const speaksJapanese = member.languages?.includes("Japanese");
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${member.name} — click to read bio`}
+      className="cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[2.5rem]"
+      style={{ height: "34rem" }}
+      onClick={onClick}
+      onKeyDown={(e) => e.key === "Enter" && onClick()}
+    >
+      <div className="relative h-full w-full overflow-hidden rounded-[2.5rem] border-2 border-ink/10 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-2xl">
+        {member.photo ? (
+          <img
+            src={member.photo}
+            alt={member.name}
+            className="h-full w-full object-cover object-top grayscale transition-all duration-700 ease-out"
+            style={{ filter: "grayscale(100%)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.filter = "grayscale(0%)")}
+            onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(100%)")}
+          />
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center bg-navy-mid">
+            <div
+              className="flex items-center justify-center rounded-full border border-gold/30 bg-navy text-gold-muted"
+              style={{ width: "5rem", height: "5rem" }}
+            >
+              <span className="font-serif text-2xl select-none">?</span>
+            </div>
+            <p className="mt-5 font-sans text-xs uppercase tracking-law text-white/30">
+              Photo Coming Soon
+            </p>
+          </div>
+        )}
+
+        {/* Name bar */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy via-navy/80 to-transparent px-6 pb-6 pt-14">
+          <p className="font-serif text-xl text-white leading-tight">{member.name}</p>
+          <p className="mt-1 font-sans text-xs uppercase tracking-law text-gold-muted">
+            {member.role}
+          </p>
+          {speaksJapanese && (
+            <p className="mt-1.5 font-sans text-xs text-white/50">Speaks Japanese</p>
+          )}
+        </div>
+
+        <div className="absolute right-4 top-4 h-2 w-2 rounded-full bg-gold/60" aria-hidden="true" />
+      </div>
+    </div>
+  );
+}
+
+// ─── Team Section ─────────────────────────────────────────────────────────────
 function TeamSection() {
   const headerRef = useScrollReveal(0.12);
   const gridRef   = useScrollReveal(0.08);
+  const [selected, setSelected] = useState(null);
 
   return (
     <section className="border-b border-cream-darker bg-white py-24 lg:py-32">
@@ -353,12 +416,14 @@ function TeamSection() {
         >
           {ABOUT.team.map((member) => (
             <div key={member.id} className="sr">
-              <TeamCard member={member} />
+              <TeamCard member={member} onClick={() => setSelected(member)} />
             </div>
           ))}
         </div>
 
       </div>
+
+      {selected && <TeamModal member={selected} onClose={() => setSelected(null)} />}
     </section>
   );
 }

@@ -15,14 +15,6 @@ function PracticeCard({ area, className = "" }) {
         aria-hidden="true"
       />
 
-      {/* Number */}
-      <span
-        className="font-serif text-7xl xl:text-8xl text-cream-darker leading-none mb-6 select-none transition-colors duration-300 group-hover:text-gold/20"
-        aria-hidden="true"
-      >
-        {area.number}
-      </span>
-
       {/* Title */}
       <h3 className="font-serif text-2xl xl:text-3xl text-ink mb-4 leading-tight group-hover:text-navy transition-colors duration-200">
         {area.title}
@@ -85,7 +77,7 @@ export default function PracticeAreas() {
           className="sr-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
         >
           {PRACTICE_AREAS.areas.map((area) => (
-            <PracticeCard key={area.number} area={area} className="sr" />
+            <PracticeCard key={area.title} area={area} className="sr" />
           ))}
         </div>
       </div>
