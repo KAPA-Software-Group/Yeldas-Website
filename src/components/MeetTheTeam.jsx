@@ -1,5 +1,7 @@
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useContent } from "../i18n";
 import { SmokeBackground } from "./ui/spooky-smoke-animation";
+import LineBreakText from "./LineBreakText";
 
 /**
  * MeetTheTeam
@@ -14,6 +16,8 @@ import { SmokeBackground } from "./ui/spooky-smoke-animation";
 export default function MeetTheTeam() {
   const leftRef  = useScrollReveal(0.15);
   const rightRef = useScrollReveal(0.1);
+  const { HOME } = useContent();
+  const copy = HOME.meetTeam;
 
   return (
     <section
@@ -45,7 +49,7 @@ export default function MeetTheTeam() {
             {/* Eyebrow */}
             <p className="eyebrow mb-5 flex items-center gap-3">
               <span className="gold-rule" aria-hidden="true" />
-              The People Behind the Work
+              {copy.eyebrow}
             </p>
 
             {/* Heading */}
@@ -53,9 +57,9 @@ export default function MeetTheTeam() {
               id="team-heading"
               className="font-serif text-5xl md:text-6xl lg:text-7xl text-ink leading-display mb-8"
             >
-              Meet the
+              {copy.headingTop}
               <br />
-              <em className="not-italic text-navy-mid">Team</em>
+              <em className="not-italic text-navy-mid">{copy.headingEmphasis}</em>
             </h2>
 
             {/* Gold rule */}
@@ -63,23 +67,18 @@ export default function MeetTheTeam() {
 
             {/* Body */}
             <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6 max-w-md">
-              Our team brings together legal expertise, cultural fluency, and a
-              genuine commitment to each client's outcome. We speak your language
-              — literally and professionally — to navigate Canada's immigration
-              system with you every step of the way.
+              <LineBreakText text={copy.body} />
             </p>
 
             <p className="font-sans text-base text-ink-light leading-relaxed max-w-md">
-              From refugee claims to permanent residence, our consultants combine
-              rigorous preparation with compassionate advocacy so no detail is
-              ever overlooked.
+              <LineBreakText text={copy.secondary} />
             </p>
 
             {/* Bottom accent */}
             <div className="mt-12 flex items-center gap-5">
               <div className="w-10 h-px bg-gold/50" aria-hidden="true" />
               <span className="font-sans text-xs text-ink-light uppercase tracking-law">
-                Anwari Law — Toronto, Canada
+                {copy.location}
               </span>
             </div>
           </div>
@@ -91,7 +90,7 @@ export default function MeetTheTeam() {
             <div className="relative rounded-sm overflow-hidden shadow-2xl shadow-ink/10">
               <img
                 src="/team.jpg"
-                alt="The Anwari Law team — five professional immigration consultants"
+                alt={copy.imageAlt}
                 className="w-full h-auto object-cover object-top block"
                 style={{ maxHeight: "680px", objectPosition: "center 15%" }}
                 loading="lazy"
@@ -118,7 +117,7 @@ export default function MeetTheTeam() {
             <div className="absolute -bottom-5 left-6 bg-white border border-cream-darker rounded-sm px-5 py-3 shadow-sm flex items-center gap-3">
               <span className="block w-2 h-2 rounded-full bg-gold flex-shrink-0" aria-hidden="true" />
               <span className="font-sans text-xs text-ink-light uppercase tracking-law">
-                Our Team &mdash; Toronto
+                {copy.caption}
               </span>
             </div>
           </div>

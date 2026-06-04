@@ -2,8 +2,32 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+const vercelEnv = process.env.VERCEL_ENV ?? "";
+
+const previewRobotsPlugin = {
+  name: "preview-robots-meta",
+  transformIndexHtml() {
+    if (vercelEnv !== "preview") return [];
+
+    return [
+      {
+        tag: "meta",
+        attrs: {
+          name: "robots",
+          content: "noindex,nofollow,noarchive",
+        },
+        injectTo: "head",
+      },
+    ];
+  },
+};
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), previewRobotsPlugin],
+
+  define: {
+    __VERCEL_ENV__: JSON.stringify(vercelEnv),
+  },
 
   resolve: {
     alias: {

@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Linkedin } from "lucide-react";
-import { Link } from "react-router-dom";
-import { BRAND, FOOTER } from "../constants/content";
+import LocalizedLink from "./LocalizedLink";
+import { useContent } from "../i18n";
+import LineBreakText from "./LineBreakText";
 
 /**
  * Footer
@@ -10,6 +11,8 @@ import { BRAND, FOOTER } from "../constants/content";
  */
 
 export default function Footer() {
+  const { BRAND, FOOTER, UI } = useContent();
+
   return (
     <footer className="relative bg-navy-mid border-t border-white/10" role="contentinfo">
       {/* Thin gold gradient rule at the very top */}
@@ -24,7 +27,7 @@ export default function Footer() {
           <div>
             {/* Logo */}
             <div className="flex items-center gap-3 mb-5">
-              <img src="/logo.png" alt="Anwari Law" className="h-10 sm:h-12 w-auto" />
+              <img src="/logo.png" alt={BRAND.name} className="h-10 sm:h-12 w-auto" />
               <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
                 <span style={{
                   fontFamily: "'Josefin Sans', sans-serif",
@@ -50,14 +53,14 @@ export default function Footer() {
             </div>
 
             <p className="font-sans text-sm text-white/50 leading-relaxed max-w-xs mb-6">
-              {FOOTER.tagline}
+              <LineBreakText text={FOOTER.tagline} />
             </p>
 
             {/* Social */}
             {BRAND.social.linkedin && BRAND.social.linkedin !== "#" && (
               <a
                 href={BRAND.social.linkedin}
-                aria-label="Anwari Law on LinkedIn"
+                aria-label={UI.linkedInAria}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-8 h-8 border border-white/15 hover:border-gold/50 text-white/50 hover:text-gold rounded-sm transition-all duration-200 cursor-pointer"
@@ -70,18 +73,18 @@ export default function Footer() {
           {/* ── Col 2: Quick Links ────────────────────────────────────────── */}
           <div>
             <h3 className="font-sans text-xs font-bold text-white/40 uppercase tracking-law mb-5">
-              Quick Links
+              {FOOTER.quickLinksHeading}
             </h3>
-            <nav aria-label="Footer navigation">
+            <nav aria-label={UI.footerNavigation}>
               <ul className="space-y-3" role="list">
                 {FOOTER.quickLinks.map((link) => (
                   <li key={link.label}>
-                    <Link
+                    <LocalizedLink
                       to={link.href}
                       className="font-sans text-sm text-white/60 hover:text-white transition-colors duration-200 cursor-pointer"
                     >
                       {link.label}
-                    </Link>
+                    </LocalizedLink>
                   </li>
                 ))}
               </ul>
@@ -91,7 +94,7 @@ export default function Footer() {
           {/* ── Col 3: Contact ────────────────────────────────────────────── */}
           <div>
             <h3 className="font-sans text-xs font-bold text-white/40 uppercase tracking-law mb-5">
-              Contact
+              {FOOTER.contactHeading}
             </h3>
             <ul className="space-y-4" role="list">
               <li>
@@ -152,7 +155,7 @@ export default function Footer() {
           <p className="font-sans text-xs text-white/30">
             {FOOTER.copyright}
           </p>
-          <nav aria-label="Legal links">
+          <nav aria-label={UI.legalLinks}>
             <ul className="flex items-center gap-5" role="list">
               {FOOTER.legalLinks.map((link) => (
                 <li key={link.label}>

@@ -58,6 +58,8 @@ export default function WireframeDottedGlobe({
   className = "",
   markers = [],
   highlightColor = "#FFFFFF",
+  ariaLabel = "Rotating globe showing countries served by Anwari Law",
+  errorMessage = "Failed to load globe data",
   // legacy props kept so existing call sites don't break
   markerColor,
   markerSize,
@@ -296,7 +298,7 @@ export default function WireframeDottedGlobe({
         startTimer();
         setIsLoading(false);
       } catch {
-        setError("Failed to load globe data");
+        setError(errorMessage);
         setIsLoading(false);
       }
     };
@@ -308,7 +310,7 @@ export default function WireframeDottedGlobe({
       scrollObs.disconnect();
       document.removeEventListener("visibilitychange", onVisChange);
     };
-  }, []);
+  }, [errorMessage]);
 
   return (
     <div ref={containerRef} className={`relative w-full h-full ${className}`}>
@@ -324,7 +326,7 @@ export default function WireframeDottedGlobe({
       )}
       <canvas
         ref={canvasRef}
-        aria-label="Rotating globe showing countries served by Anwari Law"
+        aria-label={ariaLabel}
         role="img"
         className="w-full h-full"
       />
