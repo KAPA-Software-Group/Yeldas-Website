@@ -17,14 +17,6 @@ function PracticeCard({ area, linkLabel, className = "" }) {
         aria-hidden="true"
       />
 
-      {/* Number */}
-      <span
-        className="font-serif text-7xl xl:text-8xl text-cream-darker leading-none mb-6 select-none transition-colors duration-300 group-hover:text-gold/20"
-        aria-hidden="true"
-      >
-        {area.number}
-      </span>
-
       {/* Title */}
       <h3 className="font-serif text-2xl xl:text-3xl text-ink mb-4 leading-tight group-hover:text-navy transition-colors duration-200">
         <LineBreakText text={area.title} />
@@ -89,7 +81,7 @@ export default function PracticeAreas() {
         >
           {PRACTICE_AREAS.areas.map((area) => (
             <PracticeCard
-              key={area.number}
+              key={area.title}
               area={area}
               linkLabel={PRACTICE_AREAS.linkLabel}
               className="sr"

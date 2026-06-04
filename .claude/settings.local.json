@@ -1,31 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:anwarilaw.ca)",
-      "Bash(python \"C:\\\\Users\\\\aymen\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"immigration law firm premium professional trust\" --design-system -p \"Anwari Law\")",
-      "Bash(npm install:*)",
-      "Bash(npm run:*)",
-      "Bash(cd:*)",
-      "Bash(python3 /c/Users/aymen/.claude/skills/ui-ux-pro-max/scripts/search.py \"immigration law services sidebar professional elegant\" --design-system -p \"Anwari Law\")",
-      "Bash(python /c/Users/aymen/.claude/skills/ui-ux-pro-max/scripts/search.py \"immigration law services sidebar professional elegant\" --design-system -p \"Anwari Law\")",
-      "Bash(npx skills:*)",
-      "Bash(curl -sL \"https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/cultural/ne_110m_admin_0_countries.json\" -o \"/c/Users/aymen/OneDrive/Desktop/KAPA/Anwarilaw/public/data/ne_110m_admin_0_countries.json\")",
+      "Bash(git pull *)",
       "Bash(vercel --version)",
-      "Bash(git --version)",
-      "Bash(git init:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(gh auth:*)",
-      "Bash(vercel:*)",
-      "Bash(winget --version)",
-      "Bash(winget install:*)",
-      "Bash(python3:*)",
-      "WebFetch(domain:codepen.io)",
-      "WebFetch(domain:cdpn.io)",
-      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"canadian immigration law firm professional trust authority\" --design-system -p \"Anwari Law\")",
-      "Bash(py skills/ui-ux-pro-max/scripts/search.py \"canadian immigration law firm professional trust authority\" --design-system -p \"Anwari Law\")",
-      "Bash(py:*)",
-      "Bash(node -e \"require\\('react-router-dom'\\); console.log\\('ok'\\)\")"
+      "Bash(vercel --prod)",
+      "Bash(npm run *)",
+      "Bash(netstat -ano)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(curl *)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
