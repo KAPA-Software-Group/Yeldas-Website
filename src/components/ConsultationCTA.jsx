@@ -1,8 +1,9 @@
 import { ArrowRight, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
-import { CONSULTATION } from "../constants/content";
+import LocalizedLink from "./LocalizedLink";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useContent } from "../i18n";
 import { BeamsBackground } from "./ui/beams-background";
+import LineBreakText from "./LineBreakText";
 
 /**
  * ConsultationCTA
@@ -18,6 +19,7 @@ import { BeamsBackground } from "./ui/beams-background";
 
 export default function ConsultationCTA() {
   const contentRef = useScrollReveal(0.15);
+  const { CONSULTATION } = useContent();
 
   return (
     <section
@@ -61,7 +63,7 @@ export default function ConsultationCTA() {
             className="sr font-serif text-5xl md:text-6xl lg:text-7xl text-white leading-display mb-7"
             style={{ transitionDelay: "80ms" }}
           >
-            {CONSULTATION.heading}
+            <LineBreakText text={CONSULTATION.heading} />
           </h2>
 
           {/* Subtext */}
@@ -69,7 +71,7 @@ export default function ConsultationCTA() {
             className="sr font-sans text-lg text-white/60 leading-relaxed max-w-xl mb-12"
             style={{ transitionDelay: "160ms" }}
           >
-            {CONSULTATION.subtext}
+            <LineBreakText text={CONSULTATION.subtext} />
           </p>
 
           {/* Actions */}
@@ -78,7 +80,7 @@ export default function ConsultationCTA() {
             style={{ transitionDelay: "240ms" }}
           >
             {/* Primary CTA */}
-            <Link
+            <LocalizedLink
               to={CONSULTATION.cta.href}
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-gold hover:bg-gold-light text-white font-sans font-bold text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
             >
@@ -89,7 +91,7 @@ export default function ConsultationCTA() {
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
-            </Link>
+            </LocalizedLink>
 
             {/* Phone */}
             <div className="flex flex-col gap-0.5">

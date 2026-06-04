@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import LineBreakText from "../LineBreakText";
 
 /**
  * CategoryList — adapted from shadcn asset to Anwari Law design tokens.
@@ -38,12 +39,12 @@ export const CategoryList = ({
           )}
           {title && (
             <h2 className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-1">
-              {title}
+              <LineBreakText text={title} />
             </h2>
           )}
           {subtitle && (
             <p className="font-serif text-4xl md:text-5xl text-ink-muted leading-tight">
-              {subtitle}
+              <LineBreakText text={subtitle} />
             </p>
           )}
         </div>
@@ -96,7 +97,7 @@ export const CategoryList = ({
                         isHovered ? "text-gold-dark" : "text-ink"
                       )}
                     >
-                      {category.title}
+                      <LineBreakText text={category.title} />
                     </h3>
                     {category.subtitle && (
                       <p
@@ -105,7 +106,7 @@ export const CategoryList = ({
                           isHovered ? "text-ink-muted" : "text-ink-light"
                         )}
                       >
-                        {category.subtitle}
+                        <LineBreakText text={category.subtitle} />
                       </p>
                     )}
                   </div>

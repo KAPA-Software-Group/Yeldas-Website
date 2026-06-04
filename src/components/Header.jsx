@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
-import { BRAND, NAV } from "../constants/content";
+import LocalizedLink from "./LocalizedLink";
+import LanguageToggle from "./LanguageToggle";
+import { useI18n } from "../i18n";
 
-function LogoPlaceholder() {
+function LogoPlaceholder({ brand }) {
   return (
     <div className="flex items-center gap-3">
-      <img src="/logo.png" alt="Anwari Law" className="h-16 sm:h-20 lg:h-24 w-auto" />
+      <img src="/logo.png" alt={brand.name} className="h-16 sm:h-20 lg:h-24 w-auto" />
       <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
         <span style={{
           fontFamily: "'Josefin Sans', sans-serif",
@@ -37,6 +39,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { content, pathWithoutLocale } = useI18n();
+  const { BRAND, NAV, UI } = content;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -62,29 +66,29 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
         {/* Logo */}
-        <Link to="/" aria-label="Anwari Law - Return to homepage" className="flex-shrink-0">
-          <LogoPlaceholder />
-        </Link>
+        <LocalizedLink to="/" aria-label={UI.homeAria} className="flex-shrink-0">
+          <LogoPlaceholder brand={BRAND} />
+        </LocalizedLink>
 
         {/* Desktop Navigation */}
         <nav
           role="navigation"
-          aria-label="Main navigation"
+          aria-label={UI.mainNavigation}
           className="hidden md:flex items-center gap-8"
         >
           {NAV.links.map((link) => (
-            <Link
+            <LocalizedLink
               key={link.label}
               to={link.href}
               className={[
                 "font-sans text-sm font-normal transition-colors duration-200 tracking-wide",
-                location.pathname === link.href
+                pathWithoutLocale === link.href
                   ? "text-gold"
                   : "text-white/80 hover:text-white",
               ].join(" ")}
             >
               {link.label}
-            </Link>
+            </LocalizedLink>
           ))}
         </nav>
 
@@ -98,18 +102,20 @@ export default function Header() {
             <span>{BRAND.phone}</span>
           </a>
 
-          <Link
+          <LanguageToggle />
+
+          <LocalizedLink
             to={NAV.cta.href}
             className="inline-flex items-center px-5 py-2.5 bg-gold hover:bg-gold-light text-white text-sm font-sans font-bold tracking-wide transition-all duration-200 cursor-pointer rounded-sm"
           >
             {NAV.cta.label}
-          </Link>
+          </LocalizedLink>
         </div>
 
         {/* Mobile Hamburger */}
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={menuOpen ? UI.closeMenu : UI.openMenu}
           aria-expanded={menuOpen}
           className="md:hidden text-white p-1.5 -mr-1.5 cursor-pointer"
         >
@@ -125,22 +131,23 @@ export default function Header() {
       {menuOpen && (
         <div className="md:hidden bg-navy border-t border-white/10 px-6 pb-6 pt-4 space-y-1">
           {NAV.links.map((link) => (
-            <Link
+            <LocalizedLink
               key={link.label}
               to={link.href}
               onClick={handleNavClick}
               className={[
                 "block py-3 font-sans text-base border-b border-white/5 transition-colors duration-200 cursor-pointer",
-                location.pathname === link.href
+                pathWithoutLocale === link.href
                   ? "text-gold"
                   : "text-white/80 hover:text-white",
               ].join(" ")}
             >
               {link.label}
-            </Link>
+            </LocalizedLink>
           ))}
 
           <div className="pt-4 space-y-3">
+            <LanguageToggle />
             <a
               href={`tel:${BRAND.phone.replace(/\D/g, "")}`}
               onClick={handleNavClick}
@@ -149,13 +156,13 @@ export default function Header() {
               <Phone size={14} strokeWidth={1.5} aria-hidden="true" />
               {BRAND.phone}
             </a>
-            <Link
+            <LocalizedLink
               to={NAV.cta.href}
               onClick={handleNavClick}
               className="block w-full text-center px-5 py-3 bg-gold hover:bg-gold-light text-white text-sm font-sans font-bold tracking-wide transition-colors duration-200 cursor-pointer rounded-sm"
             >
               {NAV.cta.label}
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
       )}

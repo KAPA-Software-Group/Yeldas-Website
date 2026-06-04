@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, CheckCircle, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { ABOUT, BRAND } from "../constants/content";
+import LineBreakText from "../components/LineBreakText";
+import LocalizedLink from "../components/LocalizedLink";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useContent } from "../i18n";
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const { ABOUT } = useContent();
+
   return (
     <section
       className="relative overflow-hidden bg-navy px-6 lg:px-12"
       style={{ minHeight: "clamp(34rem, 58vw, 56rem)" }}
-      aria-label="About hero"
+      aria-label={ABOUT.hero.ariaLabel}
     >
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-gold/0 via-gold/40 to-gold/0"
         aria-hidden="true"
       />
-      {/* Decorative numeral */}
       <div
         className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none font-serif leading-none text-white/[0.028]"
         style={{ fontSize: "clamp(10rem, 22vw, 22rem)" }}
         aria-hidden="true"
       >
-        ¶
+        &para;
       </div>
 
       <div className="relative mx-auto flex max-w-7xl items-center" style={{ minHeight: "inherit", paddingTop: "clamp(5.5rem, 12vw, 9rem)" }}>
@@ -35,11 +36,11 @@ function HeroSection() {
             className="hero-line font-serif leading-display text-white"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
-            {ABOUT.hero.heading}
+            <LineBreakText text={ABOUT.hero.heading} />
           </h1>
           <div className="hero-line mt-8 h-px w-16 bg-gold/40" aria-hidden="true" />
           <p className="hero-line mt-8 max-w-2xl font-sans text-xl leading-relaxed text-white/65">
-            {ABOUT.hero.subtext}
+            <LineBreakText text={ABOUT.hero.subtext} />
           </p>
         </div>
       </div>
@@ -52,15 +53,14 @@ function HeroSection() {
   );
 }
 
-// ─── Story ────────────────────────────────────────────────────────────────────
 function StorySection() {
   const ref = useScrollReveal(0.08);
+  const { ABOUT } = useContent();
+
   return (
     <section className="border-b border-cream-darker bg-cream py-24 lg:py-32">
       <div ref={ref} className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20 xl:gap-28">
-
-          {/* Left */}
           <div>
             <p className="sr eyebrow mb-6 flex items-center gap-3">
               <span className="gold-rule gold-rule--dark" aria-hidden="true" />
@@ -70,20 +70,19 @@ function StorySection() {
               className="sr text-balance font-serif leading-display text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
             >
-              {ABOUT.story.heading}
+              <LineBreakText text={ABOUT.story.heading} />
             </h2>
             <div className="sr mt-8 h-px w-14 bg-gold/50" aria-hidden="true" />
           </div>
 
-          {/* Right — body paragraphs */}
           <div className="flex flex-col justify-center gap-6">
             {ABOUT.story.body.map((para, i) => (
               <p
-                key={i}
+                key={para}
                 className="sr font-sans text-lg leading-relaxed text-ink-muted"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                {para}
+                <LineBreakText text={para} />
               </p>
             ))}
           </div>
@@ -93,36 +92,33 @@ function StorySection() {
   );
 }
 
-// ─── Values ───────────────────────────────────────────────────────────────────
 function ValuesSection() {
   const headerRef = useScrollReveal(0.15);
-  const gridRef   = useScrollReveal(0.08);
+  const gridRef = useScrollReveal(0.08);
+  const { ABOUT } = useContent();
 
   return (
     <section className="border-b border-cream-darker bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-
-        {/* Header */}
         <div ref={headerRef} className="mb-14 lg:mb-20">
           <p className="sr eyebrow mb-4 flex items-center gap-3">
             <span className="gold-rule gold-rule--dark" aria-hidden="true" />
-            Our Values
+            {ABOUT.valuesSection.eyebrow}
           </p>
           <div className="sr flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <h2
               className="text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              What We Stand For
+              <LineBreakText text={ABOUT.valuesSection.heading} />
             </h2>
             <p className="max-w-xs font-sans text-base text-ink-muted lg:text-right">
-              The principles that guide every case we take on.
+              <LineBreakText text={ABOUT.valuesSection.subtext} />
             </p>
           </div>
           <div className="sr mt-8 h-px bg-cream-darker" aria-hidden="true" />
         </div>
 
-        {/* Cards */}
         <div
           ref={gridRef}
           className="sr-stagger grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6"
@@ -132,7 +128,6 @@ function ValuesSection() {
               key={value.number}
               className="sr group relative flex flex-col overflow-hidden rounded-sm border border-cream-darker bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/30 hover:shadow-md xl:p-10"
             >
-              {/* Bottom accent */}
               <div
                 className="absolute bottom-0 left-0 h-0.5 w-0 bg-gold transition-all duration-500 group-hover:w-full"
                 aria-hidden="true"
@@ -145,10 +140,10 @@ function ValuesSection() {
                 {value.number}
               </span>
               <h3 className="mb-3 font-serif text-2xl text-ink transition-colors duration-200 group-hover:text-navy">
-                {value.title}
+                <LineBreakText text={value.title} />
               </h3>
               <p className="flex-1 font-sans text-sm leading-relaxed text-ink-muted">
-                {value.description}
+                <LineBreakText text={value.description} />
               </p>
             </div>
           ))}
@@ -158,17 +153,15 @@ function ValuesSection() {
   );
 }
 
-// ─── Approach ─────────────────────────────────────────────────────────────────
 function ApproachSection() {
-  const leftRef  = useScrollReveal(0.08);
+  const leftRef = useScrollReveal(0.08);
   const rightRef = useScrollReveal(0.06);
+  const { ABOUT } = useContent();
 
   return (
     <section className="border-b border-cream-darker bg-cream py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-20 xl:gap-28">
-
-          {/* Left */}
           <div ref={leftRef} className="lg:sticky lg:top-32 lg:self-start">
             <p className="sr eyebrow mb-6 flex items-center gap-3">
               <span className="gold-rule gold-rule--dark" aria-hidden="true" />
@@ -178,22 +171,21 @@ function ApproachSection() {
               className="sr text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              {ABOUT.approach.heading}
+              <LineBreakText text={ABOUT.approach.heading} />
             </h2>
             <div className="sr mt-7 h-px w-14 bg-gold/50" aria-hidden="true" />
             <p className="sr mt-7 font-sans text-base leading-relaxed text-ink-muted">
-              {ABOUT.approach.body}
+              <LineBreakText text={ABOUT.approach.body} />
             </p>
           </div>
 
-          {/* Right — checklist */}
           <div
             ref={rightRef}
             className="sr rounded-sm border border-cream-darker bg-white p-8 shadow-sm sm:p-10 lg:p-12"
           >
             <ul className="flex flex-col gap-6" role="list">
-              {ABOUT.approach.points.map((point, i) => (
-                <li key={i} className="flex items-start gap-4 border-b border-cream-darker pb-6 last:border-0 last:pb-0">
+              {ABOUT.approach.points.map((point) => (
+                <li key={point} className="flex items-start gap-4 border-b border-cream-darker pb-6 last:border-0 last:pb-0">
                   <CheckCircle
                     size={17}
                     strokeWidth={1.6}
@@ -201,13 +193,12 @@ function ApproachSection() {
                     aria-hidden="true"
                   />
                   <span className="font-sans text-base leading-relaxed text-ink-muted sm:text-lg">
-                    {point}
+                    <LineBreakText text={point} />
                   </span>
                 </li>
               ))}
             </ul>
           </div>
-
         </div>
       </div>
     </section>
@@ -216,9 +207,7 @@ function ApproachSection() {
 
 // ─── Team Modal ───────────────────────────────────────────────────────────────
 function TeamModal({ member, onClose }) {
-  const [lang, setLang] = useState("en");
   const [visible, setVisible] = useState(false);
-  const hasJapanese = !!member.bioJa;
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setVisible(true));
@@ -232,8 +221,7 @@ function TeamModal({ member, onClose }) {
     };
   }, [onClose]);
 
-  const bioText = lang === "ja" && hasJapanese ? member.bioJa : member.bio;
-  const paragraphs = bioText.split("\n\n").filter(Boolean);
+  const paragraphs = member.bio.split("\n\n").filter(Boolean);
 
   return (
     <div
@@ -289,25 +277,6 @@ function TeamModal({ member, onClose }) {
             {member.name}
           </h3>
 
-          {/* Language toggle — only for bilingual members */}
-          {hasJapanese && (
-            <div className="mt-5 flex gap-2">
-              {[{ code: "en", label: "English" }, { code: "ja", label: "日本語" }].map(({ code, label }) => (
-                <button
-                  key={code}
-                  onClick={() => setLang(code)}
-                  className={`w-24 rounded-sm py-1.5 font-sans text-xs font-bold transition-colors ${
-                    lang === code
-                      ? "bg-navy text-white"
-                      : "border border-cream-darker text-ink-muted hover:border-gold/40 hover:text-ink"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
-
           <div className="mt-6 h-px bg-cream-darker" aria-hidden="true" />
 
           {/* Bio paragraphs */}
@@ -326,8 +295,6 @@ function TeamModal({ member, onClose }) {
 
 // ─── Team Card ────────────────────────────────────────────────────────────────
 function TeamCard({ member, onClick }) {
-  const speaksJapanese = member.languages?.includes("Japanese");
-
   return (
     <div
       role="button"
@@ -368,9 +335,6 @@ function TeamCard({ member, onClick }) {
           <p className="mt-1 font-sans text-xs uppercase tracking-law text-gold-muted">
             {member.role}
           </p>
-          {speaksJapanese && (
-            <p className="mt-1.5 font-sans text-xs text-white/50">Speaks Japanese</p>
-          )}
         </div>
 
         <div className="absolute right-4 top-4 h-2 w-2 rounded-full bg-gold/60" aria-hidden="true" />
@@ -382,45 +346,44 @@ function TeamCard({ member, onClick }) {
 // ─── Team Section ─────────────────────────────────────────────────────────────
 function TeamSection() {
   const headerRef = useScrollReveal(0.12);
-  const gridRef   = useScrollReveal(0.08);
+  const gridRef = useScrollReveal(0.08);
   const [selected, setSelected] = useState(null);
+  const { ABOUT } = useContent();
 
   return (
     <section className="border-b border-cream-darker bg-white py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-
-        {/* Header */}
         <div ref={headerRef} className="mb-14 lg:mb-20">
           <p className="sr eyebrow mb-4 flex items-center gap-3">
             <span className="gold-rule gold-rule--dark" aria-hidden="true" />
-            Our Team
+            {ABOUT.teamSection.eyebrow}
           </p>
           <div className="sr flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <h2
               className="text-balance font-serif leading-tight text-ink"
               style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
             >
-              The People Behind Your Case
+              <LineBreakText text={ABOUT.teamSection.heading} />
             </h2>
             <p className="max-w-xs font-sans text-base text-ink-muted lg:text-right">
-              Click any card to learn more about our team.
+              <LineBreakText text={ABOUT.teamSection.subtext} />
             </p>
           </div>
           <div className="sr mt-8 h-px bg-cream-darker" aria-hidden="true" />
         </div>
 
-        {/* Cards */}
         <div
           ref={gridRef}
           className="sr-stagger grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {ABOUT.team.map((member) => (
             <div key={member.id} className="sr">
-              <TeamCard member={member} onClick={() => setSelected(member)} />
+
+              <TeamCard member={member} teamCopy={ABOUT.teamSection} onClick={() => setSelected(member)} />
+
             </div>
           ))}
         </div>
-
       </div>
 
       {selected && <TeamModal member={selected} onClose={() => setSelected(null)} />}
@@ -428,43 +391,46 @@ function TeamSection() {
   );
 }
 
-// ─── CTA ──────────────────────────────────────────────────────────────────────
 function CTASection() {
   const ref = useScrollReveal(0.12);
+  const { ABOUT } = useContent();
+
   return (
-    <section className="bg-navy py-24 lg:py-36" aria-label="Contact us">
+    <section className="bg-navy py-24 lg:py-36" aria-label={ABOUT.cta.ariaLabel}>
       <div ref={ref} className="mx-auto max-w-3xl px-6 text-center lg:px-12">
         <p className="sr eyebrow mb-6 flex items-center justify-center gap-3 text-gold-muted">
           <span className="gold-rule" aria-hidden="true" />
-          Work With Us
+          {ABOUT.cta.eyebrow}
           <span className="gold-rule" aria-hidden="true" />
         </p>
         <h2
           className="sr text-balance font-serif leading-display text-white"
           style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
         >
-          Ready to Start Your Journey?
+          <LineBreakText text={ABOUT.cta.heading} />
         </h2>
         <p className="sr mx-auto mt-8 max-w-xl font-sans text-lg leading-relaxed text-white/60">
-          Speak directly with our legal team. We offer confidential consultations
-          to understand your situation and map a clear path forward.
+          <LineBreakText text={ABOUT.cta.subtext} />
         </p>
         <div className="sr mt-10">
-          <Link
-            to="/contact"
+          <LocalizedLink
+            to={ABOUT.cta.href}
             className="inline-flex cursor-pointer items-center gap-2.5 rounded-sm bg-gold px-9 py-4 font-sans text-sm font-bold text-white transition-colors duration-200 hover:bg-gold-light group"
           >
-            Request a Consultation
-            <ArrowRight size={15} strokeWidth={2} aria-hidden="true"
-              className="transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
+            {ABOUT.cta.label}
+            <ArrowRight
+              size={15}
+              strokeWidth={2}
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-x-1"
+            />
+          </LocalizedLink>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
   return (
     <main id="main" className="overflow-x-clip">
