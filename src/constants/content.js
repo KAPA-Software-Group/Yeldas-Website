@@ -435,6 +435,21 @@ export const CONTENT = {
           bio:
             "A University of Sussex graduate with over two years in civil litigation, Vaishalei is passionate about Refugee and Immigration law and committed to becoming a skilled advocate upon her call to the Bar.",
         },
+        {
+          id: "zehra",
+          name: "Zehra Abrar",
+          role: "Law Clerk",
+          photo: "/team-zehra.jpg",
+          bio: "Zehra is a Law Clerk at Anwari Law, supporting clients in refugee, immigration, and humanitarian cases. She works closely with lawyers, interpreters, and clients to prepare legal documents, manage filings, and ensure each case is handled efficiently and accurately.\n\nZehra's dedication ensures legal documents are meticulously prepared and submitted on time, all procedural requirements are followed to the highest standard, and clients receive ongoing support and updates throughout their case.\n\nKnown for her exceptional organizational skills and attention to detail, Zehra provides seamless support for complex immigration matters and ensures every client's case is handled professionally and efficiently.",
+        },
+        {
+          id: "ayaka",
+          name: "Ayaka Yoshinari",
+          role: "Associate Lawyer",
+          photo: "/team-ayaka.jpg",
+          languages: ["English", "Japanese"],
+          bio: "Ayaka is originally from Japan and completed her legal education at Waseda University in Tokyo — one of Japan's top universities. She moved to Toronto in 2017 and began her legal career in Canada as a legal assistant at a Toronto immigration law firm.\n\nShe later pursued further legal studies at Osgoode Hall Law School in Toronto, earning her LL.M. in Canadian Common Law in 2020. After completing her articling term with a focus on immigration law, Ayaka was called to the Ontario Bar in June 2021.\n\nAyaka provides legal services across a wide range of immigration matters, including applications submitted to IRCC, and represents clients in refugee hearings before the Immigration and Refugee Board. She has also appeared before the Federal Court in judicial review proceedings.\n\nCommitted to supporting individuals facing difficult circumstances, Ayaka is passionate about protecting the human rights of her clients with empathy and dedication. Outside of her legal work, she enjoys exploring Toronto's diverse food scene and traveling internationally.\n\nShe offers legal services in both English and Japanese.",
+        },
       ],
       approach: {
         eyebrow: "Our Approach",
@@ -838,6 +853,21 @@ export const CONTENT = {
           photo: "/team-vai.webp",
           bio:
             "University of Sussex卒業後、\n民事訴訟で2年以上の\n経験を積みました。\n難民法・移民法に情熱を持ち、\n弁護士登録後に\n優れた代理人となることを\n目指しています。",
+        },
+        {
+          id: "zehra",
+          name: "Zehra Abrar",
+          role: "法務事務員",
+          photo: "/team-zehra.jpg",
+          bio: "Zehraは、アンワリ法律事務所の法律事務員として、難民、移民、人道的支援に関する案件においてクライアントをサポートしています。弁護士、通訳者、クライアントと密接に連携しながら、法的書類の作成、提出手続きの管理を行い、各案件が効率的かつ正確に進められるよう努めています。\n\nZehraの献身的な姿勢により、法的書類は細部まで丁寧に作成され、期限内に提出されます。また、すべての手続き上の要件が高い基準に従って満たされ、クライアントは案件の進行中も継続的なサポートと最新情報を受けることができます。\n\n優れた整理能力と細部への注意力で知られるZehraは、複雑な移民案件において円滑なサポートを提供し、すべてのクライアントの案件が専門的かつ効率的に扱われるよう尽力しています。",
+        },
+        {
+          id: "ayaka",
+          name: "Ayaka Yoshinari",
+          role: "所属弁護士",
+          photo: "/team-ayaka.jpg",
+          languages: ["English", "Japanese"],
+          bio: "早稲田大学法務研究科を卒業後、2017年よりトロントの移民法弁護士事務所にて勤務。2020年にオスグッドホール・ロースクールを卒業し、2021年にオンタリオ州弁護士登録。\n\n移民法・難民法関連法務に従事し、カナダ移民難民市民権省（IRCC）およびカナダ国境サービス庁（CBSA）に対する就労許可申請や永住権申請をはじめ、移民難民審査会（IRB）における難民申請の代理人を務め、幅広い移民・難民関連法務に携わっています。また、カナダ連邦裁判所での司法審査案件の経験も有しています。\n\n困難な状況にある方々に親身に寄り添い、基本的な権利が確実に守られるよう、丁寧なサポートを心がけています。\n\n日系企業やカナダ企業に勤務される日本人の方々の就労許可申請、Express Entryや婚姻に基づくスポンサーシップによる永住権申請など、オンタリオ州の数少ない日本語を母国語とする弁護士として、日本語でのご相談にも対応しています。移民法難民法以外の案件については、対応可能かどうか個別にお問い合わせください。\n\n【学歴】\n2008–2009年　香港中文大学留学\n2011年　早稲田大学法学部卒業\n2013年　早稲田大学大学院法務研究科修了（法務博士）\n2020年　オスグッドホールロースクール修了（LL.M. in Canadian Common Law）\n\n【資格】\nオンタリオ州弁護士（2021年登録）\n\n【言語】\n日本語（母国語）・英語",
         },
       ],
       approach: {

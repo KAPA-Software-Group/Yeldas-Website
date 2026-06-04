@@ -207,9 +207,7 @@ function ApproachSection() {
 
 // ─── Team Modal ───────────────────────────────────────────────────────────────
 function TeamModal({ member, onClose }) {
-  const [lang, setLang] = useState("en");
   const [visible, setVisible] = useState(false);
-  const hasJapanese = !!member.bioJa;
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setVisible(true));
@@ -223,8 +221,7 @@ function TeamModal({ member, onClose }) {
     };
   }, [onClose]);
 
-  const bioText = lang === "ja" && hasJapanese ? member.bioJa : member.bio;
-  const paragraphs = bioText.split("\n\n").filter(Boolean);
+  const paragraphs = member.bio.split("\n\n").filter(Boolean);
 
   return (
     <div
@@ -280,25 +277,6 @@ function TeamModal({ member, onClose }) {
             {member.name}
           </h3>
 
-          {/* Language toggle — only for bilingual members */}
-          {hasJapanese && (
-            <div className="mt-5 flex gap-2">
-              {[{ code: "en", label: "English" }, { code: "ja", label: "日本語" }].map(({ code, label }) => (
-                <button
-                  key={code}
-                  onClick={() => setLang(code)}
-                  className={`w-24 rounded-sm py-1.5 font-sans text-xs font-bold transition-colors ${
-                    lang === code
-                      ? "bg-navy text-white"
-                      : "border border-cream-darker text-ink-muted hover:border-gold/40 hover:text-ink"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
-
           <div className="mt-6 h-px bg-cream-darker" aria-hidden="true" />
 
           {/* Bio paragraphs */}
@@ -317,8 +295,6 @@ function TeamModal({ member, onClose }) {
 
 // ─── Team Card ────────────────────────────────────────────────────────────────
 function TeamCard({ member, onClick }) {
-  const speaksJapanese = member.languages?.includes("Japanese");
-
   return (
     <div
       role="button"
@@ -359,9 +335,6 @@ function TeamCard({ member, onClick }) {
           <p className="mt-1 font-sans text-xs uppercase tracking-law text-gold-muted">
             {member.role}
           </p>
-          {speaksJapanese && (
-            <p className="mt-1.5 font-sans text-xs text-white/50">Speaks Japanese</p>
-          )}
         </div>
 
         <div className="absolute right-4 top-4 h-2 w-2 rounded-full bg-gold/60" aria-hidden="true" />
