@@ -61,10 +61,10 @@ export default function ClientsStat() {
       {/* ── Content ─────────────────────────────────────────────────────── */}
       <div
         ref={wrapRef}
-        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28 flex flex-col items-center text-center"
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24 flex flex-col items-center text-center"
       >
         {/* Eyebrow rule */}
-        <div className="flex items-center gap-4 mb-8 sr" aria-hidden="true">
+        <div className="flex items-center gap-4 mb-6 sr" aria-hidden="true">
           <span className="block w-12 h-px bg-gold/50" />
           <span className="font-sans text-xs text-gold-muted uppercase tracking-law">
             {copy.eyebrow}
@@ -73,11 +73,11 @@ export default function ClientsStat() {
         </div>
 
         {/* Giant number — spotlight draws the eye straight to it */}
-        <SpotlightBackground className="flex flex-col items-center px-16 pb-2 -mx-4">
+        <SpotlightBackground className="flex flex-col items-center px-8 sm:px-12 lg:px-16 pb-2 -mx-4">
           <div
             className="sr font-serif text-white select-none"
             style={{
-              fontSize: "clamp(4.5rem, 16vw, 13rem)",
+              fontSize: "clamp(3.7rem, 12vw, 9.5rem)",
               lineHeight: 1,
               transitionDelay: "60ms",
               WebkitFontSmoothing: "antialiased",
@@ -90,7 +90,7 @@ export default function ClientsStat() {
 
           {/* Label */}
           <p
-            className="sr font-sans text-gold-muted uppercase tracking-law text-xs md:text-sm mt-5 mb-8"
+            className="sr font-sans text-gold-muted uppercase tracking-law text-xs mt-4 mb-6"
             style={{ transitionDelay: "120ms" }}
           >
             {copy.label}
@@ -98,7 +98,7 @@ export default function ClientsStat() {
 
           {/* Thin gold divider */}
           <div
-            className="sr w-16 h-px bg-gold/50 mb-8"
+            className="sr w-14 h-px bg-gold/50 mb-6"
             style={{ transitionDelay: "180ms" }}
             aria-hidden="true"
           />
@@ -106,7 +106,7 @@ export default function ClientsStat() {
 
         {/* Secondary credibility line */}
         <p
-          className="sr font-serif text-white/40 text-lg md:text-xl lg:text-2xl italic max-w-xl leading-relaxed"
+          className="sr font-serif text-white/40 text-base md:text-lg lg:text-xl italic max-w-xl leading-relaxed"
           style={{ transitionDelay: "240ms" }}
         >
           <LineBreakText text={copy.line} />

@@ -69,9 +69,6 @@ export default defineConfig({
           if (id.includes("node_modules/lucide-react/")) {
             return "icons";
           }
-          if (id.includes("node_modules/framer-motion/")) {
-            return "motion";
-          }
         },
       },
     },

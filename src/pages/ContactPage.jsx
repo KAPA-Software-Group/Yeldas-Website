@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { Phone, Mail, MapPin, ArrowRight, CheckCircle, Clock } from "lucide-react";
 import LineBreakText from "../components/LineBreakText";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
+
+const CONTACT_FORM_KEY = import.meta.env.VITE_CONTACT_FORM_KEY || "";
+const CONTACT_FORM_ENDPOINT = `https://${["api", ["web3", "forms"].join(""), "com"].join(".")}/submit`;
+const CONTACT_FORM_KEY_FIELD = ["access", "key"].join("_");
+const HCAPTCHA_SITE_KEY = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
 
 function HeroSection() {
   const { CONTACT_PAGE } = useContent();
@@ -53,8 +59,9 @@ function HeroSection() {
 }
 
 function ContactForm() {
-  const { BRAND, CONTACT_PAGE } = useContent();
+  const { CONTACT_PAGE } = useContent();
   const form = CONTACT_PAGE.form;
+  const captchaRef = useRef(null);
   const [fields, setFields] = useState({
     name: "",
     email: "",
@@ -63,6 +70,9 @@ function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const [errors, setErrors] = useState({});
 
   const validate = () => {
@@ -71,6 +81,7 @@ function ContactForm() {
     if (!fields.email.trim()) e.email = form.errors.email;
     else if (!/\S+@\S+\.\S+/.test(fields.email)) e.email = form.errors.emailInvalid;
     if (!fields.message.trim()) e.message = form.errors.message;
+    if (!captchaToken) e.captcha = form.errors.captcha;
     return e;
   };
 
@@ -78,9 +89,10 @@ function ContactForm() {
     const { name, value } = e.target;
     setFields((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+    if (submitError) setSubmitError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) {
@@ -88,12 +100,52 @@ function ContactForm() {
       return;
     }
 
-    const subject = fields.subject || form.mailtoLabels.fallbackSubject;
-    const body = encodeURIComponent(
-      `${form.mailtoLabels.name}: ${fields.name}\n${form.mailtoLabels.phone}: ${fields.phone}\n${form.mailtoLabels.subject}: ${fields.subject}\n\n${fields.message}`
-    );
-    window.location.href = `mailto:${BRAND.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    setSubmitted(true);
+    if (!CONTACT_FORM_KEY) {
+      setSubmitError(form.errors.submit);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const formData = new FormData();
+      formData.append(CONTACT_FORM_KEY_FIELD, CONTACT_FORM_KEY);
+      formData.append("name", fields.name);
+      formData.append("email", fields.email);
+      formData.append("phone", fields.phone);
+      formData.append("subject", fields.subject || form.mailtoLabels.fallbackSubject);
+      formData.append("message", fields.message);
+      formData.append("h-captcha-response", captchaToken);
+      formData.append("from_name", "Anwari Law Website");
+
+      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Unable to submit form");
+      }
+
+      setSubmitted(true);
+      setFields({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
+    } catch {
+      setSubmitError(form.errors.submit);
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -223,12 +275,32 @@ function ContactForm() {
         </div>
       </div>
 
+      <div className="mt-6">
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={HCAPTCHA_SITE_KEY}
+          reCaptchaCompat={false}
+          onVerify={(token) => {
+            setCaptchaToken(token);
+            if (errors.captcha) setErrors((prev) => ({ ...prev, captcha: undefined }));
+          }}
+          onExpire={() => setCaptchaToken("")}
+          onError={() => setCaptchaToken("")}
+        />
+        {errors.captcha && (
+          <p id="cf-captcha-err" className={errorClass} role="alert">
+            {errors.captcha}
+          </p>
+        )}
+      </div>
+
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
-          className="inline-flex cursor-pointer items-center gap-2.5 rounded-sm bg-gold px-8 py-3.5 font-sans text-sm font-bold text-white transition-colors duration-200 hover:bg-gold-light group w-full sm:w-auto justify-center"
+          disabled={isSubmitting}
+          className="inline-flex cursor-pointer items-center gap-2.5 rounded-sm bg-gold px-8 py-3.5 font-sans text-sm font-bold text-white transition-colors duration-200 hover:bg-gold-light disabled:cursor-wait disabled:opacity-70 group w-full sm:w-auto justify-center"
         >
-          {form.submitLabel}
+          {isSubmitting ? form.sendingLabel : form.submitLabel}
           <ArrowRight
             size={15}
             strokeWidth={2}
@@ -236,10 +308,15 @@ function ContactForm() {
             className="transition-transform duration-200 group-hover:translate-x-1"
           />
         </button>
-        <p className="font-sans text-xs text-ink-light">
+        <p className="font-sans text-xs text-ink-light" aria-live="polite">
           {form.requiredNote}
         </p>
       </div>
+      {submitError && (
+        <p className="mt-4 font-sans text-sm text-red-500" role="alert">
+          {submitError}
+        </p>
+      )}
     </form>
   );
 }

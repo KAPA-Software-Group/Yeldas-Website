@@ -37,10 +37,10 @@ export default function ServicesDetail() {
     <section
       id="services-detail"
       aria-labelledby="services-detail-heading"
-      className="bg-white py-24 lg:py-32 border-t border-cream-darker"
+      className="bg-white py-20 lg:py-24 border-t border-cream-darker"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 xl:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 xl:gap-20 items-start">
           {/* ── Left — Intro ────────────────────────────────────────────── */}
           <div ref={leftRef} className="lg:sticky lg:top-28">
             <p className="sr eyebrow mb-5 flex items-center gap-3">
@@ -50,16 +50,16 @@ export default function ServicesDetail() {
 
             <h2
               id="services-detail-heading"
-              className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-6"
+              className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-5"
             >
               <LineBreakText text={SERVICES.heading} />
             </h2>
 
-            <p className="font-sans text-lg text-ink-muted leading-relaxed mb-10 max-w-md">
+            <p className="font-sans text-base lg:text-[1.05rem] text-ink-muted leading-relaxed mb-8 max-w-md">
               <LineBreakText text={SERVICES.subtext} />
             </p>
 
-            <div className="w-10 h-px bg-gold mb-10" aria-hidden="true" />
+            <div className="w-10 h-px bg-gold mb-8" aria-hidden="true" />
 
             <LocalizedLink
               to="/contact"
@@ -76,7 +76,7 @@ export default function ServicesDetail() {
             </LocalizedLink>
 
             {/* Stats */}
-            <div className="mt-12 inline-flex items-center gap-6">
+            <div className="mt-10 inline-flex items-center gap-6">
               <div>
                 <RollingNumber value={5} className="font-serif text-3xl text-ink leading-none" />
                 <p className="font-sans text-xs text-ink-light uppercase tracking-law mt-1">

@@ -34,14 +34,21 @@ export function Waves({
   const noiseRef    = useRef(null)
   const rafRef      = useRef(null)
   const boundingRef = useRef(null)
+  const lastFrameRef = useRef(0)
 
   useEffect(() => {
     if (!containerRef.current || !svgRef.current) return
 
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     noiseRef.current = createNoise2D()
 
     setSize()
     setLines()
+
+    if (reduceMotion) {
+      drawLines()
+      return
+    }
 
     window.addEventListener('resize', onResize)
     window.addEventListener('mousemove', onMouseMove)
@@ -105,8 +112,8 @@ export function Waves({
     pathsRef.current.forEach(p => p.remove())
     pathsRef.current = []
 
-    const xGap = 14
-    const yGap = 12
+    const xGap = 22
+    const yGap = 18
 
     const oWidth  = width  + 200
     const oHeight = height + 30
@@ -238,6 +245,12 @@ export function Waves({
   }
 
   const tick = (time) => {
+    if (time - lastFrameRef.current < 48) {
+      rafRef.current = requestAnimationFrame(tick)
+      return
+    }
+    lastFrameRef.current = time
+
     const mouse = mouseRef.current
 
     mouse.sx += (mouse.x - mouse.sx) * 0.1

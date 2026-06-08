@@ -1,11 +1,13 @@
 import { ArrowRight } from "lucide-react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import LocalizedLink from "./LocalizedLink";
 import { useContent } from "../i18n";
-import WireframeDottedGlobe from "./ui/wireframe-dotted-globe";
 import { Waves } from "./ui/wave-background";
 import { RollingNumber } from "./ui/rolling-number";
 import TorontoSkyline from "./ui/toronto-skyline";
 import LineBreakText from "./LineBreakText";
+
+const WireframeDottedGlobe = lazy(() => import("./ui/wireframe-dotted-globe"));
 
 /**
  * ─── GLOBE MARKERS ───────────────────────────────────────────────────────────
@@ -54,12 +56,20 @@ const GLOBE_MARKERS = [
 
 export default function Hero() {
   const { HERO } = useContent();
+  const [showGlobe, setShowGlobe] = useState(false);
+
+  useEffect(() => {
+    const schedule = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 250));
+    const cancel = window.cancelIdleCallback || window.clearTimeout;
+    const id = schedule(() => setShowGlobe(true));
+    return () => cancel(id);
+  }, []);
 
   return (
     <section
       id="hero"
       aria-label={HERO.ariaLabel}
-      className="relative min-h-[100svh] flex flex-col lg:flex-row overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden"
     >
       {/* ── Wave background — base layer behind both panels ──────────────── */}
       <Waves strokeColor="rgba(184, 147, 63, 0.14)" />
@@ -72,16 +82,16 @@ export default function Hero() {
         bg-navy/[0.88] lets the silk shimmer through very subtly beneath the
         text, giving depth without hurting legibility.
       */}
-      <div className="relative z-10 flex flex-col justify-center bg-navy/[0.74] lg:w-[58%] min-h-[100svh] lg:min-h-screen px-8 md:px-16 xl:px-24 pt-28 pb-16 lg:pt-24">
+      <div className="relative z-10 flex flex-col justify-center bg-navy/[0.74] md:w-[56%] min-h-[66svh] md:min-h-screen px-6 sm:px-8 md:px-10 lg:px-14 xl:px-20 pt-24 md:pt-24 pb-12 md:pb-16">
         {/* Subtle top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-gold/0 via-gold/40 to-gold/0"
           aria-hidden="true"
         />
 
-        <div className="max-w-xl">
+        <div className="max-w-lg xl:max-w-xl">
           {/* Eyebrow */}
-          <p className="hero-line eyebrow mb-6 flex items-center gap-3">
+          <p className="hero-line eyebrow mb-4 flex items-center gap-3">
             <span className="gold-rule" aria-hidden="true" />
             <span>
               <LineBreakText text={HERO.eyebrow} />
@@ -89,18 +99,18 @@ export default function Hero() {
           </p>
 
           {/* Headline */}
-          <h1 className="hero-line font-serif text-3xl sm:text-4xl md:text-5xl xl:text-[4.25rem] text-white leading-display mb-6">
+          <h1 className="hero-line text-balance font-serif text-[2.3rem] sm:text-[2.65rem] md:text-[2.65rem] lg:text-[3.05rem] xl:text-[3.5rem] text-white leading-[1.15] mb-5">
             <span className="block">{HERO.headlineTop}</span>
-            <em className="not-italic text-gold-muted block whitespace-nowrap">
+            <em className="mt-1 block max-w-[11ch] not-italic text-gold-muted sm:max-w-none">
               <LineBreakText text={HERO.headlineBottom} />
             </em>
           </h1>
 
           {/* Thin gold divider */}
-          <div className="hero-line w-16 h-px bg-gold/50 mb-7" aria-hidden="true" />
+          <div className="hero-line w-14 h-px bg-gold/50 mb-6" aria-hidden="true" />
 
           {/* Subtext */}
-          <p className="hero-line font-sans text-lg text-white/65 leading-relaxed mb-10 max-w-md">
+          <p className="hero-line font-sans text-base md:text-[0.98rem] xl:text-lg text-white/65 leading-relaxed mb-8 max-w-md">
             <LineBreakText text={HERO.subtext} />
           </p>
 
@@ -130,7 +140,7 @@ export default function Hero() {
 
         {/* Scroll indicator */}
         <div
-          className="absolute bottom-8 left-8 md:left-16 xl:left-24 flex items-center gap-3 opacity-40"
+          className="absolute bottom-6 left-6 sm:left-8 md:left-10 lg:left-14 xl:left-20 flex items-center gap-3 opacity-40"
           aria-hidden="true"
         >
           <div className="w-px h-10 bg-white/50 animate-pulse" />
@@ -145,15 +155,21 @@ export default function Hero() {
         bg-navy/[0.60] — more transparent than the left panel so the silk is
         visible in the areas around the globe (corners, top, bottom).
       */}
-      <div className="hidden lg:block lg:w-[42%] relative bg-navy/[0.40] z-10">
+      <div className="relative z-10 min-h-[34svh] md:min-h-screen md:w-[44%] bg-navy/[0.40]">
         {/* Globe fills the full panel */}
-        <WireframeDottedGlobe
-          className="absolute inset-0"
-          markers={GLOBE_MARKERS}
-          highlightColor="#FFFFFF"
-          ariaLabel={HERO.globeAriaLabel}
-          errorMessage={HERO.globeLoadingError}
-        />
+        {showGlobe ? (
+          <Suspense fallback={<div className="absolute inset-0 bg-navy/[0.35]" />}>
+            <WireframeDottedGlobe
+              className="absolute inset-0"
+              markers={GLOBE_MARKERS}
+              highlightColor="#FFFFFF"
+              ariaLabel={HERO.globeAriaLabel}
+              errorMessage={HERO.globeLoadingError}
+            />
+          </Suspense>
+        ) : (
+          <div className="absolute inset-0 bg-navy/[0.35]" aria-hidden="true" />
+        )}
 
         {/* Radial vignette — fades globe edges into the panel bg */}
         <div

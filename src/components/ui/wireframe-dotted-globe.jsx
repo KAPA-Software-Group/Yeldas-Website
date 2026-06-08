@@ -27,7 +27,7 @@ import * as d3 from "d3";
 
 // ── Dot cache helpers ────────────────────────────────────────────────────────
 // Key includes a version tag so we can bust the cache if the data changes.
-const CACHE_KEY = "anwari_globe_v2";
+const CACHE_KEY = "anwari_globe_v3";
 
 function readDotCache(markerCount) {
   try {
@@ -68,11 +68,36 @@ export default function WireframeDottedGlobe({
   const canvasRef    = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError]         = useState(null);
+  const [resizeTick, setResizeTick] = useState(0);
 
   const markersRef     = useRef(markers);
   markersRef.current   = markers;
   const colorRef       = useRef(markerColor || highlightColor);
   colorRef.current     = markerColor || highlightColor;
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || typeof ResizeObserver === "undefined") return;
+
+    let frame = 0;
+    let lastWidth = 0;
+    let lastHeight = 0;
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      if (Math.abs(width - lastWidth) < 2 && Math.abs(height - lastHeight) < 2) return;
+      lastWidth = width;
+      lastHeight = height;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setResizeTick((tick) => tick + 1));
+    });
+
+    resizeObserver.observe(container);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -84,9 +109,11 @@ export default function WireframeDottedGlobe({
 
     const containerWidth  = container.clientWidth;
     const containerHeight = container.clientHeight;
+    if (containerWidth < 24 || containerHeight < 24) return;
+
     const radius = Math.min(containerWidth, containerHeight) / 2.4;
 
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width        = containerWidth  * dpr;
     canvas.height       = containerHeight * dpr;
     canvas.style.width  = `${containerWidth}px`;
@@ -137,7 +164,7 @@ export default function WireframeDottedGlobe({
     };
 
     // ── Dot generation ─────────────────────────────────────────────────────
-    const generateDots = (feature, spacing = 16) => {
+    const generateDots = (feature, spacing = 24) => {
       const dots = [];
       const [[minLng, minLat], [maxLng, maxLat]] = d3.geoBounds(feature);
       const step = spacing * 0.08;
@@ -225,11 +252,14 @@ export default function WireframeDottedGlobe({
     // ── Timer (start / stop) ──────────────────────────────────────────────
     const rotation = [0, -15];
     let globeTimer  = null;
+    let lastRender = 0;
 
     const startTimer = () => {
       if (globeTimer) return;
-      globeTimer = d3.timer(() => {
-        rotation[0] += 0.3;
+      globeTimer = d3.timer((elapsed) => {
+        if (elapsed - lastRender < 48) return;
+        lastRender = elapsed;
+        rotation[0] += 0.22;
         projection.rotate(rotation);
         render();
       });
@@ -287,7 +317,7 @@ export default function WireframeDottedGlobe({
               highlightedIndices.push(idx);
               highlightedFeatures.push(feature);
             } else {
-              const dots = generateDots(feature, 16);
+              const dots = generateDots(feature, 24);
               dots.forEach((d) => normalDots.push(d));
             }
           });
@@ -310,7 +340,7 @@ export default function WireframeDottedGlobe({
       scrollObs.disconnect();
       document.removeEventListener("visibilitychange", onVisChange);
     };
-  }, [errorMessage]);
+  }, [errorMessage, resizeTick]);
 
   return (
     <div ref={containerRef} className={`relative w-full h-full ${className}`}>

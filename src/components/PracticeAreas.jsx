@@ -50,11 +50,11 @@ export default function PracticeAreas() {
     <section
       id="services"
       aria-labelledby="practice-areas-heading"
-      className="bg-cream-dark py-24 lg:py-32"
+      className="bg-cream-dark py-20 lg:py-24"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div ref={headerRef} className="mb-16 lg:mb-20">
+        <div ref={headerRef} className="mb-12 lg:mb-14">
           <p className="sr eyebrow mb-4 flex items-center gap-3">
             <span className="gold-rule" aria-hidden="true" />
             {PRACTICE_AREAS.eyebrow}
@@ -62,7 +62,7 @@ export default function PracticeAreas() {
           <div className="sr flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <h2
               id="practice-areas-heading"
-              className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-tight max-w-lg"
+              className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-tight max-w-lg"
             >
               <LineBreakText text={PRACTICE_AREAS.heading} />
             </h2>

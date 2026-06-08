@@ -23,7 +23,7 @@ export default function MeetTheTeam() {
     <section
       id="team"
       aria-labelledby="team-heading"
-      className="relative bg-cream py-24 pb-32 lg:py-32 overflow-hidden"
+      className="relative bg-cream py-20 pb-24 lg:py-24 overflow-hidden"
     >
       {/* ── Smoke background — blends into cream via multiply ───────────── */}
       <SmokeBackground
@@ -34,14 +34,14 @@ export default function MeetTheTeam() {
 
       {/* ── Subtle watermark glyph ───────────────────────────────────────── */}
       <div
-        className="absolute -top-16 -left-8 font-serif text-[22rem] leading-none text-ink/[0.028] select-none pointer-events-none"
+        className="absolute -top-12 -left-8 font-serif text-[14rem] md:text-[18rem] leading-none text-ink/[0.028] select-none pointer-events-none"
         aria-hidden="true"
       >
         §
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-16 xl:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-12 xl:gap-20 items-center">
 
           {/* ── Left — Content ───────────────────────────────────────────── */}
           <div ref={leftRef} className="sr">
@@ -55,7 +55,7 @@ export default function MeetTheTeam() {
             {/* Heading */}
             <h2
               id="team-heading"
-              className="font-serif text-5xl md:text-6xl lg:text-7xl text-ink leading-display mb-8"
+              className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink leading-display mb-6"
             >
               {copy.headingTop}
               <br />
@@ -63,10 +63,10 @@ export default function MeetTheTeam() {
             </h2>
 
             {/* Gold rule */}
-            <div className="w-12 h-px bg-gold mb-8" aria-hidden="true" />
+            <div className="w-12 h-px bg-gold mb-6" aria-hidden="true" />
 
             {/* Body */}
-            <p className="font-sans text-lg text-ink-muted leading-relaxed mb-6 max-w-md">
+            <p className="font-sans text-base lg:text-[1.05rem] text-ink-muted leading-relaxed mb-5 max-w-md">
               <LineBreakText text={copy.body} />
             </p>
 
@@ -75,7 +75,7 @@ export default function MeetTheTeam() {
             </p>
 
             {/* Bottom accent */}
-            <div className="mt-12 flex items-center gap-5">
+            <div className="mt-9 flex items-center gap-5">
               <div className="w-10 h-px bg-gold/50" aria-hidden="true" />
               <span className="font-sans text-xs text-ink-light uppercase tracking-law">
                 {copy.location}

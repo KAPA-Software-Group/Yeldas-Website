@@ -34,19 +34,20 @@ function DigitColumn({ digit, index, totalDigits, durationMs }) {
   );
 
   return (
-    <ul
-      aria-hidden="true"
-      className="rolling-counter__column"
-      style={{
-        "--counter-delay": `${Math.round(delay)}ms`,
-        "--counter-roll-duration": `${Math.round(rollDuration)}ms`,
-        "--counter-y": `calc(-${frames.length - 1} * var(--counter-digit-height))`,
-      }}
-    >
-      {frames.map((frame, frameIndex) => (
-        <li key={`${index}-${frameIndex}`}>{frame}</li>
-      ))}
-    </ul>
+    <span className="rolling-counter__digit" aria-hidden="true">
+      <ul
+        className="rolling-counter__column"
+        style={{
+          "--counter-delay": `${Math.round(delay)}ms`,
+          "--counter-roll-duration": `${Math.round(rollDuration)}ms`,
+          "--counter-y": `calc(-${frames.length - 1} * var(--counter-digit-height))`,
+        }}
+      >
+        {frames.map((frame, frameIndex) => (
+          <li key={`${index}-${frameIndex}`}>{frame}</li>
+        ))}
+      </ul>
+    </span>
   );
 }
 
@@ -68,28 +69,37 @@ export function RollingNumber({
   useEffect(() => {
     const element = ref.current;
     if (!element) return undefined;
+
+    if (typeof IntersectionObserver === "undefined") {
+      started.current = true;
+      setPhase("active");
+      return undefined;
+    }
+
     let activateId = 0;
     let cleanupId = 0;
 
+    const run = () => {
+      if (started.current) return;
+      started.current = true;
+      setPhase("running");
+
+      activateId = window.setTimeout(() => {
+        setPhase("active");
+      }, 40);
+
+      cleanupId = window.setTimeout(() => {
+        setPhase("complete");
+      }, durationMs + 700);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || started.current) return;
-        if (window.scrollY < 50 && entry.intersectionRatio < 0.8) return;
-
-        started.current = true;
-        setPhase("running");
-
-        activateId = window.setTimeout(() => {
-          setPhase("active");
-        }, 16);
-
-        cleanupId = window.setTimeout(() => {
-          setPhase("complete");
-        }, durationMs + 900);
-
+        if (!entry.isIntersecting) return;
+        run();
         observer.disconnect();
       },
-      { threshold: 0.3, rootMargin: "0px 0px -80px 0px" }
+      { threshold: 0.01, rootMargin: "120px 0px 120px 0px" }
     );
 
     observer.observe(element);

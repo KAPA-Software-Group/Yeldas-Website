@@ -9,7 +9,7 @@ export const LANGUAGE_OPTIONS = {
 const sharedBrand = {
   name: "Anwari Law",
   phone: "(647) 704-9419",
-  email: "yelda@anwarilaw.ca",
+  email: "contactus@anwarilaw.ca",
   address: {
     street: "151 Yonge Street, 11th Floor",
     city: "Toronto, Ontario M5C 2W7",
@@ -507,6 +507,8 @@ export const CONTENT = {
           email: "Please enter your email.",
           emailInvalid: "Please enter a valid email.",
           message: "Please enter your message.",
+          captcha: "Please complete the captcha.",
+          submit: "Something went wrong while sending your message. Please try again or email us directly.",
         },
         mailtoLabels: {
           name: "Name",
@@ -518,6 +520,7 @@ export const CONTENT = {
         successBody:
           "Thank you for reaching out. A member of our team will be in touch with you within one business day.",
         submitLabel: "Send Message",
+        sendingLabel: "Sending...",
         requiredNote: "* Required fields. We'll respond within one business day.",
       },
       details: {
@@ -926,6 +929,8 @@ export const CONTENT = {
           email: "メールアドレスを入力してください。",
           emailInvalid: "有効なメールアドレスを入力してください。",
           message: "メッセージを入力してください。",
+          captcha: "Captchaを完了してください。",
+          submit: "送信中にエラーが発生しました。もう一度お試しいただくか、直接メールでご連絡ください。",
         },
         mailtoLabels: {
           name: "氏名",
@@ -937,6 +942,7 @@ export const CONTENT = {
         successBody:
           "お問い合わせありがとうございます。担当者より1営業日以内にご連絡いたします。",
         submitLabel: "送信する",
+        sendingLabel: "送信中...",
         requiredNote: "* 必須項目です。1営業日以内にご返信いたします。",
       },
       details: {

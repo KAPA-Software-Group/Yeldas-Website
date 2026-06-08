@@ -119,18 +119,40 @@
 
 /* Rolling counter */
 .rolling-counter {
-  --counter-digit-height: 0.9em;
+  --counter-digit-height: 1.12em;
   --counter-digit-width: 0.68ch;
   --counter-text-color: currentColor;
 
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.04em;
   color: var(--counter-text-color);
-  line-height: 1;
+  line-height: var(--counter-digit-height);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   font-variant-numeric: tabular-nums;
+}
+
+.rolling-counter__digit {
+  display: inline-block;
+  width: 0.62em;
+  height: var(--counter-digit-height);
+  overflow: hidden;
+  vertical-align: middle;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
 }
 
 .rolling-counter__column {
@@ -138,8 +160,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  width: 0.62em;
-  height: var(--counter-digit-height);
+  width: 100%;
   transform: translateY(0) translateZ(0);
   transition-property: transform;
   transition-duration: var(--counter-roll-duration, var(--counter-duration, 2000ms));
@@ -159,6 +180,7 @@
   display: grid;
   place-items: center;
   line-height: var(--counter-digit-height);
+  overflow: visible;
 }
 
 .rolling-counter.running .rolling-counter__column {
@@ -166,7 +188,7 @@
 }
 
 .rolling-counter__suffix {
-  line-height: 1;
+  line-height: var(--counter-digit-height);
 }
 
 @keyframes rolling-counter-blur {
@@ -174,4 +196,45 @@
   70% {
     filter: blur(0.02em);
   }
+}
+
+.spotlight-rim {
+  animation: spotlight-rim 7s ease-in-out infinite alternate;
+}
+
+.spotlight-mid {
+  animation: spotlight-mid 5.5s ease-in-out infinite alternate;
+}
+
+.spotlight-core {
+  animation: spotlight-core 3.2s ease-in-out 0.4s infinite alternate;
+}
+
+.beams-veil {
+  animation: beams-veil 10s ease-in-out infinite;
+}
+
+@keyframes spotlight-rim {
+  0% { opacity: 0.15; transform: scale(1, 1); }
+  50% { opacity: 0.45; transform: scale(1.25, 0.85); }
+  100% { opacity: 0.15; transform: scale(0.85, 1.2); }
+}
+
+@keyframes spotlight-mid {
+  0% { opacity: 0.2; transform: translate3d(0, 0, 0) scale(1); }
+  30% { opacity: 0.45; transform: translate3d(18px, -12px, 0) scale(1.15); }
+  65% { opacity: 0.25; transform: translate3d(-14px, 10px, 0) scale(0.9); }
+  100% { opacity: 0.45; transform: translate3d(8px, -6px, 0) scale(1.1); }
+}
+
+@keyframes spotlight-core {
+  0% { opacity: 0.2; transform: scale(0.88); }
+  45% { opacity: 0.5; transform: scale(1.18); }
+  70% { opacity: 0.25; transform: scale(0.92); }
+  100% { opacity: 0.45; transform: scale(1.12); }
+}
+
+@keyframes beams-veil {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.85; }
 }

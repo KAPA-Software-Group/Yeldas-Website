@@ -31,19 +31,19 @@ export const CategoryList = ({
     <div className={cn("w-full", className)}>
       {/* Header */}
       {(title || subtitle || headerIcon) && (
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           {headerIcon && (
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-gold to-gold-dark mb-6 text-white">
               {headerIcon}
             </div>
           )}
           {title && (
-            <h2 className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-1">
+            <h2 className="font-serif text-3xl md:text-4xl text-ink leading-tight mb-1">
               <LineBreakText text={title} />
             </h2>
           )}
           {subtitle && (
-            <p className="font-serif text-4xl md:text-5xl text-ink-muted leading-tight">
+            <p className="font-serif text-3xl md:text-4xl text-ink-muted leading-tight">
               <LineBreakText text={subtitle} />
             </p>
           )}
@@ -92,8 +92,8 @@ export const CategoryList = ({
                       className={cn(
                         "font-serif transition-colors duration-300",
                         category.featured
-                          ? "text-2xl md:text-3xl"
-                          : "text-xl md:text-2xl",
+                          ? "text-xl md:text-2xl"
+                          : "text-lg md:text-xl",
                         isHovered ? "text-gold-dark" : "text-ink"
                       )}
                     >

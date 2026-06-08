@@ -58,7 +58,7 @@ class Renderer {
   updateColor(rgb) { this.color = rgb; }
 
   updateScale() {
-    const dpr = Math.max(1, window.devicePixelRatio);
+    const dpr = Math.min(Math.max(1, window.devicePixelRatio), 1.25);
     const { clientWidth: w, clientHeight: h } = this.canvas.parentElement || this.canvas;
     this.canvas.width  = w * dpr;
     this.canvas.height = h * dpr;
@@ -164,9 +164,13 @@ export function SmokeBackground({ smokeColor = "#B8933F", className = "", style 
 
     let rafId;
     let paused = false;
+    let lastRender = 0;
 
     const loop = (now) => {
-      if (!paused) renderer.render(now);
+      if (!paused && now - lastRender >= 48) {
+        lastRender = now;
+        renderer.render(now);
+      }
       rafId = requestAnimationFrame(loop);
     };
 

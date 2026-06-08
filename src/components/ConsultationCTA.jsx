@@ -25,7 +25,7 @@ export default function ConsultationCTA() {
     <section
       id="contact"
       aria-labelledby="consultation-heading"
-      className="relative bg-navy overflow-hidden py-24 lg:py-36"
+      className="relative bg-navy overflow-hidden py-20 lg:py-28"
     >
       {/* ── Animated beam background ─────────────────────────────────────── */}
       <BeamsBackground intensity="medium" />
@@ -42,7 +42,7 @@ export default function ConsultationCTA() {
 
       {/* ── Layer 4: Decorative oversized § glyph ───────────────────────── */}
       <div
-        className="absolute -top-10 right-4 lg:right-16 font-serif text-[16rem] lg:text-[20rem] leading-none text-white/[0.022] select-none pointer-events-none"
+        className="absolute -top-8 right-4 lg:right-16 font-serif text-[12rem] lg:text-[16rem] leading-none text-white/[0.022] select-none pointer-events-none"
         aria-hidden="true"
       >
         &sect;
@@ -60,7 +60,7 @@ export default function ConsultationCTA() {
           {/* Heading */}
           <h2
             id="consultation-heading"
-            className="sr font-serif text-5xl md:text-6xl lg:text-7xl text-white leading-display mb-7"
+            className="sr font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-display mb-6"
             style={{ transitionDelay: "80ms" }}
           >
             <LineBreakText text={CONSULTATION.heading} />
@@ -68,7 +68,7 @@ export default function ConsultationCTA() {
 
           {/* Subtext */}
           <p
-            className="sr font-sans text-lg text-white/60 leading-relaxed max-w-xl mb-12"
+            className="sr font-sans text-base lg:text-[1.05rem] text-white/60 leading-relaxed max-w-xl mb-10"
             style={{ transitionDelay: "160ms" }}
           >
             <LineBreakText text={CONSULTATION.subtext} />

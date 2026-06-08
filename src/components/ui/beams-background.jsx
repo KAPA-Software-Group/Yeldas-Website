@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 
 /**
  * BeamsBackground
@@ -39,6 +38,7 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
   const beamsRef           = useRef([]);
   const animationFrameRef  = useRef(null);
   const intensityRef       = useRef(intensity);
+  const lastFrameRef       = useRef(0);
   intensityRef.current     = intensity;
 
   useEffect(() => {
@@ -47,17 +47,18 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const BEAM_COUNT = 20;
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const BEAM_COUNT = reduceMotion ? 4 : 10;
 
     const updateCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const w   = canvas.parentElement?.clientWidth  || window.innerWidth;
       const h   = canvas.parentElement?.clientHeight || window.innerHeight;
       canvas.width        = w * dpr;
       canvas.height       = h * dpr;
       canvas.style.width  = `${w}px`;
       canvas.style.height = `${h}px`;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       beamsRef.current = Array.from({ length: BEAM_COUNT }, () =>
         createBeam(w, h)
       );
@@ -111,7 +112,12 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
       ctx.restore();
     };
 
-    const animate = () => {
+    const animate = (time = 0) => {
+      if (!reduceMotion && time - lastFrameRef.current < 48) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastFrameRef.current = time;
       const w = parseInt(canvas.style.width)  || window.innerWidth;
       const h = parseInt(canvas.style.height) || window.innerHeight;
       ctx.clearRect(0, 0, w, h);
@@ -124,7 +130,9 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
         drawBeam(beam);
       });
 
-      animationFrameRef.current = requestAnimationFrame(animate);
+      if (!reduceMotion) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
     };
 
     // Pause when section is off-screen
@@ -141,7 +149,7 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
     );
     obs.observe(canvas);
 
-    animate();
+    if (reduceMotion) animate();
 
     return () => {
       window.removeEventListener("resize", onResize);
@@ -160,12 +168,10 @@ export function BeamsBackground({ className = "", intensity = "medium" }) {
         style={{ filter: "blur(12px)" }}
       />
       {/* Subtle breathing veil — keeps text legible */}
-      <motion.div
+      <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
+        className="beams-veil absolute inset-0 pointer-events-none"
         style={{ background: "rgba(15,23,42,0.55)" }}
-        animate={{ opacity: [0.7, 0.85, 0.7] }}
-        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
       />
     </>
   );
