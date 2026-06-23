@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anwarilaw.ca/sitemap.xml
+Host: https://anwarilaw.ca

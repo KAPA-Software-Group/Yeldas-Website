@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://anwarilaw.ca/en</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/en/services</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/services" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/services" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/en/about</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/about" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/about" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/en/contact</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/contact" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/contact" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/ja</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/ja/services</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/services" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/services" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/ja/about</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/about" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/about" />
+  </url>
+  <url>
+    <loc>https://anwarilaw.ca/ja/contact</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="en" href="https://anwarilaw.ca/en/contact" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://anwarilaw.ca/ja/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anwarilaw.ca/en/contact" />
+  </url>
+</urlset>
