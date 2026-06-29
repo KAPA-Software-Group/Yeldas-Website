@@ -12,11 +12,19 @@
  *                      subsequent mount in the same session skips the whole
  *                      computation and uses the cached array directly.
  *
- *  3. PAUSE ON HIDE  — The d3 rotation timer stops when:
- *                        a) the canvas scrolls out of the viewport, OR
- *                        b) the browser tab is hidden.
- *                      It resumes automatically when the canvas is visible
- *                      again. This eliminates wasted GPU/CPU work.
+ *  3. STABLE RESIZE  — A resize updates the canvas size + d3 projection IN
+ *                      PLACE. The globe is never torn down, re-fetched, or
+ *                      flashed back to the loading state, so it no longer
+ *                      "glitches in and out" or jumps when the layout reflows.
+ *
+ *  4. SMOOTH MOTION  — Rotation is time-based (degrees per second) and the
+ *                      single rAF loop is throttled evenly, so the spin is
+ *                      consistent regardless of frame rate instead of
+ *                      staggering.
+ *
+ *  5. PAUSE ON HIDE  — The render loop stops when the canvas scrolls out of
+ *                      the viewport or the browser tab is hidden, and resumes
+ *                      automatically. This eliminates wasted GPU/CPU work.
  *
  * Countries that contain a marker point are filled solid white with a pulsing
  * effect; all other land shows gold halftone dots.
@@ -68,36 +76,11 @@ export default function WireframeDottedGlobe({
   const canvasRef    = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError]         = useState(null);
-  const [resizeTick, setResizeTick] = useState(0);
 
   const markersRef     = useRef(markers);
   markersRef.current   = markers;
   const colorRef       = useRef(markerColor || highlightColor);
   colorRef.current     = markerColor || highlightColor;
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container || typeof ResizeObserver === "undefined") return;
-
-    let frame = 0;
-    let lastWidth = 0;
-    let lastHeight = 0;
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      if (Math.abs(width - lastWidth) < 2 && Math.abs(height - lastHeight) < 2) return;
-      lastWidth = width;
-      lastHeight = height;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setResizeTick((tick) => tick + 1));
-    });
-
-    resizeObserver.observe(container);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -107,27 +90,44 @@ export default function WireframeDottedGlobe({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const containerWidth  = container.clientWidth;
-    const containerHeight = container.clientHeight;
-    if (containerWidth < 24 || containerHeight < 24) return;
+    // ── Live geometry (updated in place on resize, never torn down) ─────────
+    let width      = 0;
+    let height     = 0;
+    let radius     = 0;
+    let projection = null;
+    let path       = null;
 
-    const radius = Math.min(containerWidth, containerHeight) / 2.4;
+    // ── Render data ─────────────────────────────────────────────────────────
+    const rotation          = [0, -15];
+    const normalDots         = [];
+    const highlightedFeatures = [];
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvas.width        = containerWidth  * dpr;
-    canvas.height       = containerHeight * dpr;
-    canvas.style.width  = `${containerWidth}px`;
-    canvas.style.height = `${containerHeight}px`;
-    ctx.scale(dpr, dpr);
+    // ── Canvas / projection setup (safe to call repeatedly) ─────────────────
+    const setupCanvas = () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w < 24 || h < 24) return false;
 
-    // ── D3 projection ──────────────────────────────────────────────────────
-    const projection = d3
-      .geoOrthographic()
-      .scale(radius)
-      .translate([containerWidth / 2, containerHeight / 2])
-      .clipAngle(90);
+      width  = w;
+      height = h;
+      radius = Math.min(w, h) / 2.4;
 
-    const path = d3.geoPath().projection(projection).context(ctx);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width        = w * dpr;
+      canvas.height       = h * dpr;
+      canvas.style.width  = `${w}px`;
+      canvas.style.height = `${h}px`;
+      // setTransform (not scale) so the dpr transform never compounds across
+      // repeated resizes on the same persistent context.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      if (!projection) {
+        projection = d3.geoOrthographic().clipAngle(90);
+        path = d3.geoPath().projection(projection).context(ctx);
+      }
+      projection.scale(radius).translate([w / 2, h / 2]).rotate(rotation);
+      return true;
+    };
 
     // ── Point-in-polygon helpers ───────────────────────────────────────────
     const pointInRing = (point, ring) => {
@@ -174,18 +174,15 @@ export default function WireframeDottedGlobe({
       return dots;
     };
 
-    // ── State ──────────────────────────────────────────────────────────────
-    let highlightedFeatures = [];
-    const normalDots        = [];
-
     // ── Render ────────────────────────────────────────────────────────────
     const render = () => {
-      ctx.clearRect(0, 0, containerWidth, containerHeight);
+      if (!projection) return;
+      ctx.clearRect(0, 0, width, height);
 
-      const scale       = projection.scale();
-      const sf          = scale / radius;
-      const cx          = containerWidth  / 2;
-      const cy          = containerHeight / 2;
+      const scale = projection.scale();
+      const sf    = scale / radius;
+      const cx    = width  / 2;
+      const cy    = height / 2;
 
       // Ocean sphere
       ctx.beginPath();
@@ -211,7 +208,7 @@ export default function WireframeDottedGlobe({
         const p = projection([lng, lat]);
         if (!p) return;
         const [px, py] = p;
-        if (px < 0 || px > containerWidth || py < 0 || py > containerHeight) return;
+        if (px < 0 || px > width || py < 0 || py > height) return;
         ctx.beginPath();
         ctx.arc(px, py, 1.1 * sf, 0, 2 * Math.PI);
         ctx.fillStyle   = "#C8A44F";
@@ -249,41 +246,77 @@ export default function WireframeDottedGlobe({
       });
     };
 
-    // ── Timer (start / stop) ──────────────────────────────────────────────
-    const rotation = [0, -15];
-    let globeTimer  = null;
-    let lastRender = 0;
+    // ── Animation loop (time-based, evenly throttled) ──────────────────────
+    const SPEED        = 5;   // degrees per second — consistent regardless of fps
+    const FRAME_MS     = 32;  // ~30fps cap, evenly paced
+    let rafId          = null;
+    let lastFrameTime  = 0;
 
-    const startTimer = () => {
-      if (globeTimer) return;
-      globeTimer = d3.timer((elapsed) => {
-        if (elapsed - lastRender < 48) return;
-        lastRender = elapsed;
-        rotation[0] += 0.22;
-        projection.rotate(rotation);
-        render();
-      });
+    const loop = (now) => {
+      rafId = requestAnimationFrame(loop);
+      const dt = now - lastFrameTime;
+      if (dt < FRAME_MS) return;
+      lastFrameTime = now;
+      // Clamp dt so a long pause (e.g. tab refocus) can't jolt the rotation.
+      const seconds = Math.min(dt, 100) / 1000;
+      rotation[0] += SPEED * seconds;
+      projection.rotate(rotation);
+      render();
     };
 
-    const stopTimer = () => {
-      if (globeTimer) {
-        globeTimer.stop();
-        globeTimer = null;
+    // ── Loop start / stop (driven by visibility) ───────────────────────────
+    let onScreen  = true;
+    let tabActive = !document.hidden;
+
+    const startLoop = () => {
+      if (rafId != null || !projection) return;
+      lastFrameTime = performance.now();
+      rafId = requestAnimationFrame(loop);
+    };
+
+    const stopLoop = () => {
+      if (rafId != null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
       }
     };
 
+    const updateRunning = () => {
+      if (onScreen && tabActive) startLoop();
+      else stopLoop();
+    };
+
+    // ── Resize: update geometry in place, no teardown / no loading flash ────
+    let resizeFrame = 0;
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      const { width: w, height: h } = entry.contentRect;
+      if (Math.abs(w - width) < 2 && Math.abs(h - height) < 2) return;
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        if (setupCanvas()) render();
+      });
+    });
+    resizeObserver.observe(container);
+
     // ── Pause when tab hidden ─────────────────────────────────────────────
-    const onVisChange = () => (document.hidden ? stopTimer() : startTimer());
+    const onVisChange = () => {
+      tabActive = !document.hidden;
+      updateRunning();
+    };
     document.addEventListener("visibilitychange", onVisChange);
 
     // ── Pause when canvas is off-screen ───────────────────────────────────
     const scrollObs = new IntersectionObserver(
-      ([entry]) => (entry.isIntersecting ? startTimer() : stopTimer()),
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        updateRunning();
+      },
       { threshold: 0 }
     );
     scrollObs.observe(canvas);
 
     // ── Load GeoJSON (local file — browser caches after first visit) ───────
+    let cancelled = false;
     const loadWorldData = async () => {
       try {
         setIsLoading(true);
@@ -291,13 +324,13 @@ export default function WireframeDottedGlobe({
         const markerPoints = markersRef.current.map((m) => [m.lng, m.lat]);
         const cached       = readDotCache(markerPoints.length);
 
-        // ── CACHE HIT ─────────────────────────────────────────────────────
         // We still need the feature objects (for rendering), so always fetch
-        // the GeoJSON. But the browser's HTTP cache makes this near-instant
-        // after the first visit. We skip the expensive dot computation.
+        // the GeoJSON. The browser's HTTP cache makes this near-instant after
+        // the first visit. A cache hit lets us skip the dot computation.
         const res = await fetch("/data/ne_110m_admin_0_countries.json");
         if (!res.ok) throw new Error("Failed to load country data");
         const countryData = await res.json();
+        if (cancelled) return;
 
         if (cached) {
           // Restore precomputed dots
@@ -325,9 +358,12 @@ export default function WireframeDottedGlobe({
           writeDotCache(normalDots, highlightedIndices, markerPoints.length);
         }
 
-        startTimer();
+        setupCanvas();
+        render();
+        updateRunning();
         setIsLoading(false);
       } catch {
+        if (cancelled) return;
         setError(errorMessage);
         setIsLoading(false);
       }
@@ -336,11 +372,14 @@ export default function WireframeDottedGlobe({
     loadWorldData();
 
     return () => {
-      stopTimer();
+      cancelled = true;
+      stopLoop();
+      cancelAnimationFrame(resizeFrame);
+      resizeObserver.disconnect();
       scrollObs.disconnect();
       document.removeEventListener("visibilitychange", onVisChange);
     };
-  }, [errorMessage, resizeTick]);
+  }, [errorMessage]);
 
   return (
     <div ref={containerRef} className={`relative w-full h-full ${className}`}>
