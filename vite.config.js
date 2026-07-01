@@ -3,6 +3,10 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 const vercelEnv = process.env.VERCEL_ENV ?? "";
+const gtmId = process.env.VITE_GTM_ID || process.env.GTM_ID || "GTM-NWWHCQJ3";
+const gtmScriptParam =
+  process.env.VITE_GTM_SCRIPT_PARAM ||
+  "eeo25xmz=HwpHNCc6VzshOTIwIj1JUwBTSF1CUR4bSw8UBBIFExkXGVQQEg%3D%3D";
 
 const previewRobotsPlugin = {
   name: "preview-robots-meta",
@@ -22,8 +26,27 @@ const previewRobotsPlugin = {
   },
 };
 
+const googleTagManagerPlugin = {
+  name: "google-tag-manager",
+  transformIndexHtml() {
+    return [
+      {
+        tag: "script",
+        injectTo: "head-prepend",
+        children: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://file.anwarilaw.ca/brcuzwssznv.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmScriptParam}');`,
+      },
+      {
+        tag: "noscript",
+        injectTo: "body-prepend",
+        children: `<iframe src="https://file.anwarilaw.ca/ns.html?id=${gtmId}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+      },
+    ];
+  },
+};
+
 export default defineConfig({
-  plugins: [react(), previewRobotsPlugin],
+  plugins: [react(), previewRobotsPlugin, googleTagManagerPlugin],
 
   define: {
     __VERCEL_ENV__: JSON.stringify(vercelEnv),
