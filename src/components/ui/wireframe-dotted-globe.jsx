@@ -33,6 +33,8 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
+import { cn } from "../../lib/utils";
+
 // ── Dot cache helpers ────────────────────────────────────────────────────────
 // Key includes a version tag so we can bust the cache if the data changes.
 const CACHE_KEY = "anwari_globe_v3";
@@ -382,7 +384,7 @@ export default function WireframeDottedGlobe({
   }, [errorMessage]);
 
   return (
-    <div ref={containerRef} className={`relative w-full h-full ${className}`}>
+    <div ref={containerRef} className={cn("relative w-full h-full", className)}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-2 h-2 rounded-full bg-gold animate-ping" aria-hidden="true" />

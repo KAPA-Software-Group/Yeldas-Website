@@ -75,31 +75,38 @@ export default function Hero() {
       <Waves strokeColor="rgba(184, 147, 63, 0.14)" />
 
       {/* ── Toronto skyline underlay — anchored to bottom of hero ────────── */}
-      <TorontoSkyline />
+      <TorontoSkyline className="hidden md:block" />
 
       {/* ── Left Panel — Text Content ─────────────────────────────────────── */}
       {/*
         bg-navy/[0.88] lets the silk shimmer through very subtly beneath the
         text, giving depth without hurting legibility.
       */}
-      <div className="relative z-10 flex flex-col justify-center bg-navy/[0.74] md:w-[56%] min-h-[66svh] md:min-h-screen px-6 sm:px-8 md:px-10 lg:px-14 xl:px-20 pt-24 md:pt-24 pb-12 md:pb-16">
+      <div className="relative z-10 flex flex-col justify-center bg-navy/[0.74] md:w-[56%] md:min-h-screen px-5 sm:px-8 md:px-10 lg:px-14 xl:px-20 pt-24 md:pt-24 pb-10 md:pb-16">
+        {/* Mobile skyline — anchored to the bottom of the text panel, since the
+            stacked layout puts the globe (not the text) at the hero's bottom.
+            It sits *inside* the panel, so it paints over the bg-navy/[0.74]
+            instead of under it like the hero-level copy. The lower opacity
+            (0.85 x 0.26) reproduces the desktop result. */}
+        <TorontoSkyline className="md:hidden" opacity={0.22} />
+
         {/* Subtle top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-gold/0 via-gold/40 to-gold/0"
           aria-hidden="true"
         />
 
-        <div className="max-w-lg xl:max-w-xl">
+        <div className="relative max-w-lg xl:max-w-xl">
           {/* Eyebrow */}
-          <p className="hero-line eyebrow mb-4 flex items-center gap-3">
-            <span className="gold-rule" aria-hidden="true" />
+          <p className="hero-line eyebrow mb-4 flex items-start gap-3">
+            <span className="gold-rule mt-[0.6em] shrink-0" aria-hidden="true" />
             <span>
               <LineBreakText text={HERO.eyebrow} />
             </span>
           </p>
 
           {/* Headline */}
-          <h1 className="hero-line text-balance font-serif text-[2.3rem] sm:text-[2.65rem] md:text-[2.65rem] lg:text-[3.05rem] xl:text-[3.5rem] text-white leading-[1.15] mb-5">
+          <h1 className="hero-line text-balance font-serif text-[clamp(2rem,1.49rem+2.52vw,3.5rem)] text-white leading-[1.15] mb-4 sm:mb-5">
             <span className="block">{HERO.headlineTop}</span>
             <em className="mt-1 block max-w-[11ch] not-italic text-gold-muted sm:max-w-none">
               <LineBreakText text={HERO.headlineBottom} />
@@ -107,18 +114,18 @@ export default function Hero() {
           </h1>
 
           {/* Thin gold divider */}
-          <div className="hero-line w-14 h-px bg-gold/50 mb-6" aria-hidden="true" />
+          <div className="hero-line w-14 h-px bg-gold/50 mb-5 sm:mb-6" aria-hidden="true" />
 
           {/* Subtext */}
-          <p className="hero-line font-sans text-base md:text-[0.98rem] xl:text-lg text-white/65 leading-relaxed mb-8 max-w-md">
+          <p className="hero-line font-sans text-[clamp(0.9375rem,0.88rem+0.3vw,1.125rem)] text-white/65 leading-relaxed mb-6 sm:mb-8 max-w-md">
             <LineBreakText text={HERO.subtext} />
           </p>
 
           {/* CTAs */}
-          <div className="hero-line flex flex-wrap items-center gap-4">
+          <div className="hero-line flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
             <LocalizedLink
               to={HERO.primaryCTA.href}
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gold hover:bg-gold-light text-white font-sans font-bold text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2.5 px-5 sm:px-7 py-3 sm:py-3.5 bg-gold hover:bg-gold-light text-white font-sans font-bold text-[0.8125rem] sm:text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer group"
             >
               {HERO.primaryCTA.label}
               <ArrowRight
@@ -131,7 +138,7 @@ export default function Hero() {
 
             <LocalizedLink
               to={HERO.secondaryCTA.href}
-              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/25 hover:border-gold/60 text-white/80 hover:text-white font-sans text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer"
+              className="inline-flex w-full sm:w-auto justify-center items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 border border-white/25 hover:border-gold/60 text-white/80 hover:text-white font-sans text-[0.8125rem] sm:text-sm tracking-wide transition-all duration-200 rounded-sm cursor-pointer"
             >
               {HERO.secondaryCTA.label}
             </LocalizedLink>
@@ -140,7 +147,7 @@ export default function Hero() {
 
         {/* Scroll indicator */}
         <div
-          className="absolute bottom-6 left-6 sm:left-8 md:left-10 lg:left-14 xl:left-20 flex items-center gap-3 opacity-40"
+          className="absolute bottom-6 left-6 sm:left-8 md:left-10 lg:left-14 xl:left-20 hidden md:flex items-center gap-3 opacity-40"
           aria-hidden="true"
         >
           <div className="w-px h-10 bg-white/50 animate-pulse" />
@@ -152,38 +159,50 @@ export default function Hero() {
 
       {/* ── Right Panel — Rotating Globe ─────────────────────────────────── */}
       {/*
-        bg-navy/[0.60] — more transparent than the left panel so the silk is
-        visible in the areas around the globe (corners, top, bottom).
+        Two different compositions, not one scaled composition:
+
+        mobile  — a normal flow column. A small centered globe, then the
+                  caption BELOW it. Nothing overlaps.
+        md+     — the original desktop art direction: the globe fills the
+                  panel edge to edge and the caption floats over its lower
+                  third, where there is empty space around the sphere.
       */}
-      <div className="relative z-10 min-h-[34svh] md:min-h-screen md:w-[44%] bg-navy/[0.40]">
-        {/* Globe fills the full panel */}
-        {showGlobe ? (
-          <Suspense fallback={<div className="absolute inset-0 bg-navy/[0.35]" />}>
-            <WireframeDottedGlobe
-              className="absolute inset-0"
-              markers={GLOBE_MARKERS}
-              highlightColor="#FFFFFF"
-              ariaLabel={HERO.globeAriaLabel}
-              errorMessage={HERO.globeLoadingError}
-            />
-          </Suspense>
-        ) : (
-          <div className="absolute inset-0 bg-navy/[0.35]" aria-hidden="true" />
-        )}
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6 py-10 md:block md:gap-0 md:py-0 md:min-h-screen md:w-[44%] bg-navy/[0.40]">
+        {/*
+          Mobile: a square box sized from the viewport (never a fixed pixel
+          width) and capped so it cannot crowd the caption.
+          Desktop: absolutely fills the panel, exactly as before.
+        */}
+        <div className="relative w-[62vw] max-w-[15rem] aspect-square md:absolute md:inset-0 md:w-auto md:max-w-none md:aspect-auto">
+          {showGlobe ? (
+            <Suspense fallback={<div className="absolute inset-0 bg-navy/[0.35]" />}>
+              <WireframeDottedGlobe
+                className="absolute inset-0"
+                markers={GLOBE_MARKERS}
+                highlightColor="#FFFFFF"
+                ariaLabel={HERO.globeAriaLabel}
+                errorMessage={HERO.globeLoadingError}
+              />
+            </Suspense>
+          ) : (
+            <div className="absolute inset-0 bg-navy/[0.35]" aria-hidden="true" />
+          )}
 
-        {/* Radial vignette — fades globe edges into the panel bg */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at center, transparent 50%, #0F172A 100%)",
-          }}
-          aria-hidden="true"
-        />
+          {/* Radial vignette — fades the globe edges into the panel bg. Lives
+              inside the globe box so it tracks the globe at every size. */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse at center, transparent 50%, #0F172A 100%)",
+            }}
+            aria-hidden="true"
+          />
+        </div>
 
-        {/* Caption */}
-        <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3 z-10 pointer-events-none">
+        {/* Caption — stacked under the globe on mobile, overlaid on desktop */}
+        <div className="relative flex flex-col items-center gap-3 z-10 pointer-events-none md:absolute md:bottom-8 md:left-0 md:right-0">
           <div className="w-10 h-px bg-gold/50" aria-hidden="true" />
-          <p className="font-serif text-xl text-white/80 leading-tight">
+          <p className="font-serif text-[clamp(1.05rem,0.93rem+0.6vw,1.25rem)] text-white/80 leading-tight">
             {HERO.globeCaption}
           </p>
           <p className="font-sans text-xs text-gold-muted uppercase tracking-law">
