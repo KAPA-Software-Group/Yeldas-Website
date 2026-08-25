@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
  * useScrollReveal
  *
  * Attach the returned ref to any container element.
- * When that container enters the viewport, every child with the class "sr"
+ * When that container edges into the viewport, every child with the class "sr"
  * gains "sr-visible", triggering the CSS reveal transition.
  *
  * Pair with the "sr-stagger" class on the container to apply automatic
@@ -20,8 +20,18 @@ import { useEffect, useRef } from "react";
  * For a single standalone element, add both the ref and "sr" to the same el:
  *   const ref = useScrollReveal()
  *   <p ref={ref} className="sr">…</p>
+ *
+ * NOTE ON THE THRESHOLD ARGUMENT
+ * ------------------------------
+ * The optional first argument is kept for backward compatibility but is no
+ * longer used as an IntersectionObserver `threshold`. A threshold is a fraction
+ * of the *element* that must be visible, which breaks on phones: a section that
+ * is several times taller than a small viewport can never reach, say, 20%
+ * visibility, so the reveal would never fire and the content would stay hidden.
+ * Instead we trigger the moment the element's top edge enters the viewport
+ * (via rootMargin), which behaves consistently on every screen size.
  */
-export function useScrollReveal(threshold = 0.1) {
+export function useScrollReveal(/* legacy threshold arg — intentionally unused */) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -37,6 +47,13 @@ export function useScrollReveal(threshold = 0.1) {
       );
     };
 
+    // Fallback: if IntersectionObserver isn't available, reveal immediately so
+    // content is never left invisible.
+    if (typeof IntersectionObserver === "undefined") {
+      reveal();
+      return;
+    }
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -44,10 +61,17 @@ export function useScrollReveal(threshold = 0.1) {
           obs.unobserve(el);
         }
       },
-      { threshold }
+      {
+        // Fire as soon as any part of the element enters the viewport, pulled
+        // up slightly from the bottom so the animation starts a touch early.
+        // Independent of element height, so it works on phones and desktops.
+        threshold: 0,
+        rootMargin: "0px 0px -10% 0px",
+      }
     );
 
     obs.observe(el);
+
     return () => obs.disconnect();
   }, []);
 
