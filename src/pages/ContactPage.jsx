@@ -5,7 +5,13 @@ import LineBreakText from "../components/LineBreakText";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { useContent } from "../i18n";
 
-const CONTACT_FORM_KEY = import.meta.env.VITE_CONTACT_FORM_KEY || "";
+// VITE_WEB3FORMS_ACCESS_KEY is the name configured in Vercel.
+// VITE_CONTACT_FORM_KEY is kept as a fallback for any environment still
+// using the original name.
+const CONTACT_FORM_KEY =
+  import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
+  import.meta.env.VITE_CONTACT_FORM_KEY ||
+  "";
 const CONTACT_FORM_ENDPOINT = `https://${["api", ["web3", "forms"].join(""), "com"].join(".")}/submit`;
 const CONTACT_FORM_KEY_FIELD = ["access", "key"].join("_");
 const HCAPTCHA_SITE_KEY = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
@@ -106,8 +112,8 @@ function ContactForm() {
       // and a missing .env.local looks exactly like a dead API.
       if (import.meta.env.DEV) {
         console.error(
-          "[contact form] VITE_CONTACT_FORM_KEY is not set, so no request was sent. " +
-            "Copy .env.example to .env.local and add the Web3Forms access key."
+          "[contact form] Neither VITE_WEB3FORMS_ACCESS_KEY nor VITE_CONTACT_FORM_KEY " +
+            "is set, so no request was sent. Set one at build time with the Web3Forms access key."
         );
       }
       setSubmitError(form.errors.submit);
