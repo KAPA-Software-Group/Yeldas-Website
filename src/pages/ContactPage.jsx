@@ -101,6 +101,15 @@ function ContactForm() {
     }
 
     if (!CONTACT_FORM_KEY) {
+      // Misconfiguration, not a delivery failure. The user-facing copy stays
+      // generic on purpose, but without this the two are indistinguishable
+      // and a missing .env.local looks exactly like a dead API.
+      if (import.meta.env.DEV) {
+        console.error(
+          "[contact form] VITE_CONTACT_FORM_KEY is not set, so no request was sent. " +
+            "Copy .env.example to .env.local and add the Web3Forms access key."
+        );
+      }
       setSubmitError(form.errors.submit);
       return;
     }
